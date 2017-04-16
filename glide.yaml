@@ -1,0 +1,4 @@
+package: .
+import:
+- package: github.com/astaxie/beego
+  version: ~1.8.0
