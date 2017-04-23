@@ -5,23 +5,23 @@
         <div class="side-bar">
             <el-row class="tac">
                 <el-col>
-                    <el-menu default-active="$route.path" class="el-menu-vertical-demo" theme="dark" uniqueOpened router>
-                        <div v-for="(menu, index) in $router.options.routes">
-                            <el-submenu :index="index + ''" v-if="!menu.leaf">
+                    <el-menu :default-active="$route.path" class="el-menu-vertical-demo" theme="dark" :uniqueOpened="true" :router="true">
+                        <template v-for="(item, index) in $router.options.routes">
+                            <el-submenu :index="index + ''" v-if="!item.leaf">
                                 <template slot="title">
-                                    <i :class="['fa', menu.icon]"></i>
-                                    <span class="ship-span">{{ menu.name}}</span>
+                                    <i :class="['fa', item.icon]"></i>
+                                    <span class="ship-span">{{ item.name}}</span>
                                 </template>
-                                <el-menu-item v-for="subMenu in menu.subMenus" :index="subMenu.path" :key="subMenu.path">
-                                    <i :class="['fa', subMenu.icon]"></i>
-                                    <span class="ship-span">{{ subMenu.name }}</span>
+                                <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path">
+                                    <i :class="['fa', child.icon]"></i>
+                                    <span class="ship-span">{{ child.name }}</span>
                                 </el-menu-item>
                             </el-submenu>
-                            <el-menu-item :index="menu.subMenus[0].path" v-if="menu.leaf">
-                                <i :class="['fa', menu.icon]"></i>
-                                <span class="ship-span">{{ menu.subMenus[0].name }}</span>
+                            <el-menu-item :index="item.children[0].path" v-if="item.leaf">
+                                <i :class="['fa', item.icon]"></i>
+                                <span class="ship-span">{{ item.children[0].name }}</span>
                             </el-menu-item>
-                        </div>
+                        </template>
                     </el-menu>
                 </el-col>
             </el-row>
@@ -36,10 +36,7 @@
 </template>
 <script>
     export default {
-        name: 'home',
-        data () {
-            return {}
-        }
+
     }
 </script>
 
