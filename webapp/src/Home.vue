@@ -1,43 +1,55 @@
 <template>
-    <div class="content">
-        <div class="header-bar"></div>
+    <div class="">
         <div class="nav-bar"></div>
-        <div class="side-bar">
-            <el-row class="tac">
-                <el-col>
-                    <el-menu :default-active="$route.path" class="el-menu-vertical-demo" theme="dark" :uniqueOpened="true" :router="true">
-                        <template v-for="(item, index) in $router.options.routes">
-                            <el-submenu :index="index + ''" v-if="!item.leaf">
-                                <template slot="title">
-                                    <i :class="['fa', item.icon]"></i>
-                                    <span class="ship-span">{{ item.name}}</span>
-                                </template>
-                                <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path">
-                                    <i :class="['fa', child.icon]"></i>
-                                    <span class="ship-span">{{ child.name }}</span>
-                                </el-menu-item>
-                            </el-submenu>
-                            <el-menu-item :index="item.children[0].path" v-if="item.leaf">
-                                <i :class="['fa', item.icon]"></i>
-                                <span class="ship-span">{{ item.children[0].name }}</span>
-                            </el-menu-item>
-                        </template>
-                    </el-menu>
-                </el-col>
-            </el-row>
+        <div class="header-bar">
+            <div class="ship-drop">
+                <el-dropdown trigger="click">
+                    <span class="el-dropdown-link"><img class="ship-img" src="./assets/ico-y.png">admin</span>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item><i class="fa fa-pencil fa-fw"></i>密码修改</el-dropdown-item>
+                        <el-dropdown-item><i class="fa fa-sign-out fa-fw"></i>安全退出</el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
+            </div>
         </div>
-        <div class="content-view">
-            <transition name="fade" mode="out-in">
-                <router-view></router-view>
-            </transition>
+
+        <div class="main">
+            <div class="side-bar">
+                <el-row class="tac">
+                    <el-col>
+                        <el-menu :default-active="$route.path" class="el-menu-vertical-demo" theme="dark"
+                                 :uniqueOpened="true" :router="true">
+                            <template v-for="(item, index) in $router.options.routes">
+                                <el-submenu :index="index + ''" v-if="!item.leaf">
+                                    <template slot="title">
+                                        <i :class="['fa', item.icon]"></i>
+                                        <span class="ship-span">{{ item.name}}</span>
+                                    </template>
+                                    <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path">
+                                        <i :class="['fa', child.icon]"></i>
+                                        <span class="ship-span">{{ child.name }}</span>
+                                    </el-menu-item>
+                                </el-submenu>
+                                <el-menu-item :index="item.children[0].path" v-if="item.leaf">
+                                    <i :class="['fa', item.icon]"></i>
+                                    <span class="ship-span">{{ item.children[0].name }}</span>
+                                </el-menu-item>
+                            </template>
+                        </el-menu>
+                    </el-col>
+                </el-row>
+            </div>
+            <div>
+                <transition name="fade" mode="out-in">
+                    <router-view class="content-view"></router-view>
+                </transition>
+            </div>
         </div>
         <div class="footer"></div>
     </div>
 </template>
 <script>
-    export default {
-
-    }
+    export default {}
 </script>
 
 <style>
@@ -47,12 +59,16 @@
         height: 100%;
     }
 
+    .main {
+
+    }
+
     .header-bar {
         position: fixed;
-        background-color: #EDEDED;
+        background-color: #f3f8fc;
         height: 50px;
         width: 100%;
-        margin-left: 230px;
+        left: 230px;
     }
 
     .nav-bar {
@@ -65,7 +81,7 @@
     .side-bar {
         position: fixed;
         background-color: rgb(50, 65, 87);
-        margin-top: 50px;
+        top: 50px;
         width: 230px;
         height: 100%;
     }
@@ -73,9 +89,9 @@
     .footer {
         position: fixed;
         height: 30px;
-        margin-left: 230px;
+        left: 230px;
         bottom: 0;
-        background-color: #EDEDED;
+        background-color: #f3f8fc;
         width: 100%;
     }
 
@@ -92,11 +108,23 @@
     }
 
     .content-view {
-        position: fixed;
-        margin-left: 230px;
-        margin-top: 50px;
-        margin-bottom: 25px;
-        height: 100%;
+        position: absolute;
+        left: 230px;
+        top: 50px;
+        bottom: 25px;
         width: 100%;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .ship-drop {
+        margin-top: 15px;
+        float: right;
+        margin-right: 235px;
+    }
+
+    .ship-img {
+        margin-bottom: -5px;
+        margin-right: 5px;
     }
 </style>
