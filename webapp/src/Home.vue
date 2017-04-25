@@ -4,10 +4,10 @@
         <div class="header-bar">
             <div class="ship-drop">
                 <el-dropdown trigger="click">
-                    <span class="el-dropdown-link"><img class="ship-img" src="./assets/ico-y.png">admin</span>
+                    <span class="el-dropdown-link ship-pointer"><img class="ship-img" src="./assets/ico-y.png">admin</span>
                     <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item><i class="fa fa-pencil fa-fw"></i>密码修改</el-dropdown-item>
-                        <el-dropdown-item><i class="fa fa-sign-out fa-fw"></i>安全退出</el-dropdown-item>
+                        <el-dropdown-item @click.native="initModPwd"><i class="fa fa-pencil fa-fw"></i><span class="">密码修改</span></el-dropdown-item>
+                        <el-dropdown-item divided @click.native="logout"><i class="fa fa-sign-out fa-fw"></i>安全退出</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
             </div>
@@ -46,81 +46,95 @@
             </div>
         </div>
         <div class="footer"></div>
+
+        <!--密码修改-->
+        <el-dialog :title="title" v-model="formVisible" :close-on-click-modal="false" size="tiny">
+            <el-form label-width="80px" :model="user" :rules="editFormRules" ref="user">
+                <el-form-item label="用户名" prop="name">
+                    {{ user.name }}
+                </el-form-item>
+                <el-form-item label="旧密码" prop="old_pwd">
+                    <el-input type="password" v-model="user.old_pwd" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="新密码" prop="new_pwd">
+                    <el-input type="password" v-model="user.new_pwd" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="确认密码" prop="next_pwd">
+                    <el-input type="password" v-model="user.next_pwd" auto-complete="off"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click.native="formVisible = false">取消</el-button>
+                <el-button type="primary" @click.native="editPwd">提交</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 <script>
-    export default {}
+    import axios from 'axios';
+    import util from './js/util';
+    export default {
+        data () {
+            let checkNewPwd = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请输入新密码'));
+                } else if (!util.PATTERN.PASSWORD.test(this.user.new_pwd)) {
+                    callback(new Error('密码长度最少为8位的数字加字母组成'));
+                } else {
+                    callback();
+                }
+            };
+            let checkNextPwd = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请输入确认密码'));
+                } else if (value !== this.user.new_pwd) {
+                    callback(new Error('两次密码输入不一致'));
+                } else {
+                    callback();
+                }
+            };
+            return {
+                formVisible: false,
+                title: '',
+                user: {
+                    name: 'admin',
+                    old_pwd: '',
+                    new_pwd: '',
+                    next_pwd: '',
+                    region: ''
+                },
+                options: [
+                    {value:1, label: '111'},
+                    {value:2, label: '222'},
+                ],
+                editFormRules: {
+                    old_pwd: [{required: true, message: '请输入旧密码', trigger: 'blur'}],
+                    new_pwd: [{validator: checkNewPwd, trigger: 'blur'}],
+                    next_pwd: [{validator: checkNextPwd, trigger: 'blur'}]
+                }
+            }
+        },
+        methods: {
+            initModPwd: function () {
+                let self = this;
+                self.formVisible = true;
+                self.title = '密码修改';
+                axios.get('api/user').then(function (res) {
+                    self.user.name = res.data.name;
+                });
+                self.$refs.user.resetFields();
+            },
+            editPwd: function () {
+                let self = this;
+                self.$refs.user.validate((valid) => {
+                    if (valid) {
+
+                    }
+                })
+            },
+            logout: function () {
+                
+            }
+        }
+    }
 </script>
-
-<style>
-    .nav-span {
-        margin-left: 20px;
-    }
-
-    .header-bar {
-        position: fixed;
-        background-color: #f3f8fc;
-        height: 50px;
-        width: 100%;
-        left: 230px;
-    }
-
-    .nav-bar {
-        position: fixed;
-        width: 230px;
-        height: 50px;
-        line-height: 50px;
-        color: #fff;
-        font-size: 25px;
-        background-color: rgb(50, 65, 87);
-    }
-
-    .side-bar {
-        position: fixed;
-        background-color: rgb(50, 65, 87);
-        top: 50px;
-        width: 230px;
-        height: 100%;
-    }
-
-    .footer {
-        position: fixed;
-        height: 30px;
-        left: 230px;
-        bottom: 0;
-        background-color: #f3f8fc;
-        width: 100%;
-    }
-
-    .el-menu-item {
-        font-size: 16px;
-    }
-
-    .el-submenu__title {
-        font-size: 16px;
-    }
-
-    .ship-span {
-        margin-left: 5px;
-    }
-
-    .content-view {
-        position: absolute;
-        top: 50px;
-        left: 230px;
-        right: 0;
-        bottom: 25px;
-        overflow-y: auto;
-    }
-
-    .ship-drop {
-        margin-top: 15px;
-        float: right;
-        margin-right: 235px;
-    }
-
-    .ship-img {
-        margin-bottom: -5px;
-        margin-right: 5px;
-    }
-</style>
