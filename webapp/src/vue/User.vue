@@ -21,7 +21,6 @@
             </div>
             <div class="block ship-page">
                 <el-pagination
-                        @size-change="handleSizeChange"
                         @current-change="handleCurrentChange"
                         :current-page="currentPage"
                         :page-size="10"
@@ -53,13 +52,13 @@
     </div>
 </template>
 <script>
-    let pasReg = /^(?![^a-zA-Z]+$)(?!\D+$).{8,20}$/;
+    import util from '../js/util';
     export default {
         data () {
             let checkNewPwd = (rule, value, callback) => {
                 if (value === '') {
                     callback(new Error('请输入新密码'));
-                } else if (!pasReg.test(this.user.new_pwd)) {
+                } else if (!util.PATTERN.PASSWORD.test(value)) {
                     callback(new Error('密码长度最少为8位的数字加字母组成'));
                 } else {
                     callback();
@@ -98,10 +97,6 @@
             }
         },
         methods: {
-            handleSizeChange: function (val) {
-
-            },
-
             handleCurrentChange: function (val) {
 
             },
@@ -139,43 +134,3 @@
         },
     }
 </script>
-
-<style>
-    .ship-content {
-        position: absolute;
-        left: 230px;
-        width: 100%;
-        overflow-y: auto;
-        overflow-x: hidden;
-    }
-
-    .view {
-        padding: 10px;
-    }
-
-    .ship-top {
-        margin-top: 10px;
-        font-size: 20px;
-    }
-
-    .ship-line {
-        margin-top: 10px;
-        border-bottom: solid 1px #e5e8ed;
-    }
-
-    .ship-btn {
-        margin-bottom: 10px;
-    }
-
-    .ship-page {
-        float: right;
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
-
-    .el-dialog__header {
-        padding: 20px 20px 0;
-        border-bottom: solid 1px #e5e8ed;
-        padding-bottom: 10px;
-    }
-</style>
