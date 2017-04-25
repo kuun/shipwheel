@@ -38,6 +38,7 @@
     "vue-router": "^2.4.0",
     "font-awesome": "^4.7.0",
     "jquery": "^2.2.4",
-    "lodash": "^4.15.0"
+    "lodash": "^4.15.0",
+    "axios": "^0.16.1"
   }
 }
