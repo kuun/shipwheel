@@ -1,6 +1,6 @@
 <template>
     <div class="">
-        <div class="nav-bar"></div>
+        <div class="nav-bar"><span class="nav-span">SHIPWHEEL</span></div>
         <div class="header-bar">
             <div class="ship-drop">
                 <el-dropdown trigger="click">
@@ -53,14 +53,8 @@
 </script>
 
 <style>
-    .content {
-        position: fixed;
-        width: 100%;
-        height: 100%;
-    }
-
-    .main {
-
+    .nav-span {
+        margin-left: 20px;
     }
 
     .header-bar {
@@ -75,6 +69,9 @@
         position: fixed;
         width: 230px;
         height: 50px;
+        line-height: 50px;
+        color: #fff;
+        font-size: 25px;
         background-color: rgb(50, 65, 87);
     }
 
@@ -109,12 +106,11 @@
 
     .content-view {
         position: absolute;
-        left: 230px;
         top: 50px;
+        left: 230px;
+        right: 0;
         bottom: 25px;
-        width: 100%;
         overflow-y: auto;
-        overflow-x: hidden;
     }
 
     .ship-drop {
