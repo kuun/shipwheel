@@ -1,0 +1,104 @@
+.view {
+    padding: 10px;
+}
+
+.ship-top {
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+.ship-line {
+    margin-top: 10px;
+    border-bottom: solid 1px #e5e8ed;
+}
+
+.ship-btn {
+    margin-bottom: 10px;
+}
+
+.ship-page {
+    float: right;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.el-dialog__header {
+    padding: 20px 20px 0;
+    border-bottom: solid 1px #e5e8ed;
+    padding-bottom: 10px;
+}
+
+.nav-span {
+    margin-left: 20px;
+}
+
+.header-bar {
+    position: fixed;
+    background-color: #f3f8fc;
+    height: 50px;
+    width: 100%;
+    left: 230px;
+}
+
+.nav-bar {
+    position: fixed;
+    width: 230px;
+    height: 50px;
+    line-height: 50px;
+    color: #fff;
+    font-size: 25px;
+    background-color: rgb(50, 65, 87);
+}
+
+.side-bar {
+    position: fixed;
+    background-color: rgb(50, 65, 87);
+    top: 50px;
+    width: 230px;
+    height: 100%;
+}
+
+.footer {
+    position: fixed;
+    height: 30px;
+    left: 230px;
+    bottom: 0;
+    background-color: #f3f8fc;
+    width: 100%;
+}
+
+.el-menu-item {
+    font-size: 16px;
+}
+
+.el-submenu__title {
+    font-size: 16px;
+}
+
+.ship-span {
+    margin-left: 5px;
+}
+
+.content-view {
+    position: absolute;
+    top: 50px;
+    left: 230px;
+    right: 0;
+    bottom: 25px;
+    overflow-y: auto;
+}
+
+.ship-drop {
+    float: right;
+    line-height: 50px;
+    margin-right: 235px;
+}
+
+.ship-img {
+    margin-bottom: -5px;
+    margin-right: 5px;
+}
+
+.ship-pointer {
+    cursor: pointer;
+}

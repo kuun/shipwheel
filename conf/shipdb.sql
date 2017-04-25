@@ -9,4 +9,4 @@ CREATE TABLE `ship_user` (
   `is_admin` BOOL         NOT NULL
 );
 INSERT INTO `ship_user` (`name`, `password`, `is_admin`)
-VALUES ('admin', '2660fd05954ed585a9b3b43ec589ee018f0e211ecb7e474e5ee369d0785d0bea', TRUE)
+VALUES ('admin', '2660fd05954ed585a9b3b43ec589ee018f0e211ecb7e474e5ee369d0785d0bea', TRUE);

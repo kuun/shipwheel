@@ -34,6 +34,11 @@
     "vue-loader": "^11.1.4",
     "vue-template-compiler": "^2.1.8",
     "webpack": "^2.2.0-rc.4",
-    "webpack-dev-server": "beta"
+    "webpack-dev-server": "beta",
+    "vue-router": "^2.4.0",
+    "font-awesome": "^4.7.0",
+    "jquery": "^2.2.4",
+    "lodash": "^4.15.0",
+    "axios": "^0.16.1"
   }
 }
