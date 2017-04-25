@@ -5,6 +5,7 @@ import 'font-awesome/css/font-awesome.css'
 import App from './App.vue'
 import VueRouter from 'vue-router'
 import routes from './routes'
+import './css/ship.css'
 Vue.use(ElementUI);
 Vue.use(VueRouter);
 
