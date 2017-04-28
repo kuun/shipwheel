@@ -1,0 +1,48 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.3.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+
+	/*dependencies {
+		classpath 'org.akhikhl.gretty:gretty:+'
+	}*/
+
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'application'
+/*apply plugin: 'org.akhikhl.gretty'*/
+
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter')
+	compile("org.springframework.boot:spring-boot-starter-web")
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-jetty', version: '1.5.3.RELEASE'
+	//runtime('mysql:mysql-connector-java')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+mainClassName = 'org.ship.core.app.App'
+
+/*
+gretty {
+	// supported values:
+	// 'jetty7', 'jetty8', 'jetty9', 'tomcat7', 'tomcat8'
+	servletContainer = 'jetty9'
+	httpPort = 8009
+}*/
