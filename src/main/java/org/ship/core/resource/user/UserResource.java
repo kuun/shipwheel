@@ -5,19 +5,18 @@ import org.ship.core.vo.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * Created by wx on 2017/4/28.
  */
 @RestController
-@RequestMapping(value = "/ship/user/admin")
+@RequestMapping(value = "/ship/user")
 public class UserResource {
     private final Logger logger = LoggerFactory.getLogger(UserResource.class);
 
@@ -25,12 +24,20 @@ public class UserResource {
     private IUserService userService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public Collection<User> getUser() throws SQLException {
-        return userService.getUsers();
+    public Object getUser(@RequestParam(value = "name", required = false) String name) throws SQLException {
+        return name == null ? userService.getUsers() : userService.getUserByName(name);
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public void modUser(HttpServletRequest request) {
+    public void modUser(@RequestBody Map<String, String> obj) throws Exception{
+        String name = obj.get("name");
+        String oldPwd = obj.get("old_pwd");
+        String newPwd = obj.get("new_pwd");
+        userService.modUser(name, oldPwd, newPwd);
+    }
 
+    @RequestMapping(method = RequestMethod.POST)
+    public User createUser(@RequestBody User user) {
+        return userService.createUser(user);
     }
 }

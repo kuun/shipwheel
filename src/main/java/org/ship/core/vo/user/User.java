@@ -1,11 +1,14 @@
 package org.ship.core.vo.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Created by wx on 2017/4/29.
  */
 public class User {
     private int id;
     private String name;
+    @JsonIgnore
     private String password;
     private boolean is_admin;
 

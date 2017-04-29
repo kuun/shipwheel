@@ -10,4 +10,7 @@ import java.util.Collection;
  */
 public interface IUserService {
     Collection<User> getUsers() throws SQLException;
+    User getUserByName(String name);
+    void modUser(String name, String oldPwd, String newPwd) throws Exception;
+    User createUser(User user);
 }
