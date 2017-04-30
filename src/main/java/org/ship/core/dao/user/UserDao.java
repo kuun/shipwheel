@@ -19,11 +19,11 @@ public interface UserDao {
     @Select("SELECT * FROM ship_user WHERE name = #{name} AND password = #{password}")
     User getUserByNameAndPwd(@Param("name") String name, @Param("password") String password);
 
-    @Insert("insert into ship_user (name, password, is_admin) values(#{name}, #{password}, #{is_admin})")
+    @Insert("INSERT INTO ship_user (name, password, is_admin) VALUES(#{name}, #{password}, #{is_admin})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int createUser(User user);
 
-    @Update("update ship_user set password = #{password} where name = #{name}")
+    @Update("UPDATE ship_user SET password = #{password} WHERE name = #{name}")
     void modUser(@Param("name") String name, @Param("password") String password);
 
 }
