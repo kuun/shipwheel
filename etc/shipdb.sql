@@ -1,6 +1,7 @@
 use shipdb;
 
 DROP TABLE IF EXISTS `ship_user` CASCADE;
+DROP TABLE IF EXISTS `ship_nic_addr` CASCADE;
 DROP TABLE IF EXISTS `ship_node_nic` CASCADE;
 DROP TABLE IF EXISTS `ship_node` CASCADE;
 
@@ -25,6 +26,16 @@ CREATE TABLE `ship_node_nic` (
   `id`      INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `name`    VARCHAR(20) NOT NULL,
   `node_id` INT         NOT NULL,
+  FOREIGN KEY (node_id) REFERENCES ship_node(id) ON DELETE RESTRICT
+);
+
+CREATE TABLE `ship_nic_addr` (
+  `id`      INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `nic_id`  INT         NOT NULL,
+  `node_id` INT         NOT NULL,
+  `ip`      VARCHAR(20) NOT NULL UNIQUE,
+  `mask`    VARCHAR(20) NOT NULL,
+  FOREIGN KEY (nic_id)  REFERENCES ship_node_nic(id) ON DELETE RESTRICT,
   FOREIGN KEY (node_id) REFERENCES ship_node(id) ON DELETE RESTRICT
 );
 
