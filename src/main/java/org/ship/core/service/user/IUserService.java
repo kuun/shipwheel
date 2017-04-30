@@ -13,4 +13,5 @@ public interface IUserService {
     User getUserByName(String name);
     void modUser(String name, String oldPwd, String newPwd) throws Exception;
     User createUser(User user);
+    boolean login(String name, String password);
 }

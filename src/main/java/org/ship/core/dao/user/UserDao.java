@@ -17,7 +17,7 @@ public interface UserDao {
     User getUserByName(@Param("name") String name);
 
     @Select("SELECT * FROM ship_user WHERE name = #{name} AND password = #{password}")
-    User getUser(@Param("name") String name, @Param("password") String password);
+    User getUserByNameAndPwd(@Param("name") String name, @Param("password") String password);
 
     @Insert("insert into ship_user (name, password, is_admin) values(#{name}, #{password}, #{is_admin})")
     @Options(useGeneratedKeys = true, keyProperty = "id")

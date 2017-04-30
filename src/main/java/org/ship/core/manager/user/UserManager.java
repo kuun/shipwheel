@@ -1,6 +1,7 @@
 package org.ship.core.manager.user;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.ship.core.dao.user.UserDao;
 import org.ship.core.service.user.IUserService;
 import org.ship.core.vo.user.User;
@@ -33,7 +34,7 @@ public class UserManager implements IUserService{
 
     @Override
     public void modUser(String name, String oldPwd, String newPwd) throws Exception {
-        User user = userDao.getUser(name, oldPwd);
+        User user = userDao.getUserByNameAndPwd(name, oldPwd);
         log.debug("user: {}", user);
         if (user == null) {
             throw new Exception("user name or password is invalid");
@@ -45,6 +46,21 @@ public class UserManager implements IUserService{
     public User createUser(User user)  {
         userDao.createUser(user);
         return user;
+    }
+
+    @Override
+    public boolean login(String name, String password) {
+        boolean bool = false;
+        try {
+            User user = userDao.getUserByNameAndPwd(name, password);
+            if (user == null) {
+                throw new Exception("user name or password is invalid");
+            }
+            bool = true;
+        } catch (Exception e) {
+            log.error("login error: {}", ExceptionUtils.getStackTrace(e));
+        }
+        return bool;
     }
 
 }
