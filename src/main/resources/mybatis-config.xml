@@ -18,5 +18,6 @@
 
     <mappers>
         <mapper class="org.ship.core.dao.user.UserDao"/>
+        <mapper class="org.ship.core.dao.node.NicDao"/>
     </mappers>
 </configuration>
