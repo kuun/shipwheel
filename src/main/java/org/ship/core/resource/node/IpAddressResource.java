@@ -13,7 +13,7 @@ import java.util.Map;
  * Created by wx on 2017/4/30.
  */
 @RestController
-@RequestMapping(value = "ship/node")
+@RequestMapping(value = "/ship/node")
 public class IpAddressResource {
     @Autowired
     private INodeService nodeService;

@@ -14,7 +14,7 @@ import java.util.Collection;
  * Created by wx on 2017/4/29.
  */
 @RestController
-@RequestMapping(value = "ship/node/nic")
+@RequestMapping(value = "/ship/node/nic")
 public class NicResource {
     @Autowired
     private INodeService nodeService;
