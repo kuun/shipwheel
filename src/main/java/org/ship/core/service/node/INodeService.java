@@ -2,6 +2,7 @@ package org.ship.core.service.node;
 
 import org.ship.core.vo.node.IpAddress;
 import org.ship.core.vo.node.Nic;
+import org.ship.core.vo.node.Route;
 
 import java.util.Collection;
 
@@ -17,4 +18,9 @@ public interface INodeService {
     IpAddress createIpAddr(IpAddress ipaddr);
     IpAddress modIpAddr(IpAddress ipAddr);
     void deleteIpAddr(int id);
+    Collection<Route> getRoutes(int nodeId);
+    Route getRoute(int id);
+    Route createRoute(Route route);
+    Route modRoute(Route route);
+    void deleteRoute(int id);
  }

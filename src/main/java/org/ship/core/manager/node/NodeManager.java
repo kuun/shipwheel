@@ -2,9 +2,11 @@ package org.ship.core.manager.node;
 
 import org.ship.core.dao.node.IpAddrDao;
 import org.ship.core.dao.node.NicDao;
+import org.ship.core.dao.node.RouteDao;
 import org.ship.core.service.node.INodeService;
 import org.ship.core.vo.node.IpAddress;
 import org.ship.core.vo.node.Nic;
+import org.ship.core.vo.node.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,9 @@ public class NodeManager implements INodeService {
 
     @Autowired
     private IpAddrDao ipAddrDao;
+
+    @Autowired
+    private RouteDao routeDao;
 
     @Override
     public Collection<Nic> getNicsByNodeId(int nodeId) {
@@ -62,5 +67,32 @@ public class NodeManager implements INodeService {
     @Override
     public void deleteIpAddr(int id) {
         ipAddrDao.deleteIpAddr(id);
+    }
+
+    @Override
+    public Collection<Route> getRoutes(int nodeId) {
+        return routeDao.getRoutes(nodeId);
+    }
+
+    @Override
+    public Route getRoute(int id) {
+        return routeDao.getRoute(id);
+    }
+
+    @Override
+    public Route createRoute(Route route) {
+        routeDao.createRoute(route);
+        return route;
+    }
+
+    @Override
+    public Route modRoute(Route route) {
+        routeDao.modRoute(route.getGateway(), route.getId());
+        return route;
+    }
+
+    @Override
+    public void deleteRoute(int id) {
+        routeDao.deleteRoute(id);
     }
 }

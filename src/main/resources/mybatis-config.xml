@@ -8,6 +8,7 @@
         <mapper class="org.ship.core.dao.user.UserDao"/>
         <mapper class="org.ship.core.dao.node.NicDao"/>
         <mapper class="org.ship.core.dao.node.IpAddrDao"/>
+        <mapper class="org.ship.core.dao.node.RouteDao"/>
     </mappers>
 
 </configuration>
