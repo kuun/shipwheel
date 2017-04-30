@@ -1,4 +1,4 @@
-package org.ship.core.dao.nic;
+package org.ship.core.dao.node;
 
 /**
  * Created by wx on 2017/4/29.

@@ -1,4 +1,4 @@
-package org.ship.core.service.nic;
+package org.ship.core.service.node;
 
 /**
  * Created by wx on 2017/4/29.
