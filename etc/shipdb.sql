@@ -51,5 +51,14 @@ CREATE TABLE `ship_nic_route` (
   FOREIGN KEY (node_id) REFERENCES ship_node(id)     ON DELETE RESTRICT
 );
 
+CREATE TABLE `ship_dns` (
+  `id`      INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `node_id` INT         NOT NULL,
+  `dns`     VARCHAR(20) NOT NULL,
+  FOREIGN KEY (node_id) REFERENCES ship_node(id) ON DELETE RESTRICT
+);
+INSERT INTO `ship_dns` (node_id, dns) VALUES (1, '');
+INSERT INTO `ship_dns` (node_id, dns) VALUES (2, '');
+
 COMMIT;
 

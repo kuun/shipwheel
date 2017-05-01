@@ -1,9 +1,11 @@
 package org.ship.core.manager.node;
 
+import org.ship.core.dao.node.DnsDao;
 import org.ship.core.dao.node.IpAddrDao;
 import org.ship.core.dao.node.NicDao;
 import org.ship.core.dao.node.RouteDao;
 import org.ship.core.service.node.INodeService;
+import org.ship.core.vo.node.Dns;
 import org.ship.core.vo.node.IpAddress;
 import org.ship.core.vo.node.Nic;
 import org.ship.core.vo.node.Route;
@@ -26,6 +28,9 @@ public class NodeManager implements INodeService {
 
     @Autowired
     private RouteDao routeDao;
+
+    @Autowired
+    private DnsDao dnsDao;
 
     @Override
     public Collection<Nic> getNicsByNodeId(int nodeId) {
@@ -94,5 +99,18 @@ public class NodeManager implements INodeService {
     @Override
     public void deleteRoute(int id) {
         routeDao.deleteRoute(id);
+    }
+
+    @Override
+    public Dns getDns(int nodeId) {
+        return dnsDao.getDns(nodeId);
+    }
+
+    @Override
+    public Dns modDns(int nodeId, String dns) {
+        dnsDao.modDns(nodeId, dns);
+        Dns newDns = new Dns();
+        newDns.setDns(dns);
+        return newDns;
     }
 }

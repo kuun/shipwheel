@@ -9,6 +9,7 @@
         <mapper class="org.ship.core.dao.node.NicDao"/>
         <mapper class="org.ship.core.dao.node.IpAddrDao"/>
         <mapper class="org.ship.core.dao.node.RouteDao"/>
+        <mapper class="org.ship.core.dao.node.DnsDao"/>
     </mappers>
 
 </configuration>

@@ -1,5 +1,6 @@
 package org.ship.core.service.node;
 
+import org.ship.core.vo.node.Dns;
 import org.ship.core.vo.node.IpAddress;
 import org.ship.core.vo.node.Nic;
 import org.ship.core.vo.node.Route;
@@ -23,4 +24,6 @@ public interface INodeService {
     Route createRoute(Route route);
     Route modRoute(Route route);
     void deleteRoute(int id);
+    Dns getDns(int nodeId);
+    Dns modDns(int nodeId, String dns);
  }
