@@ -10,6 +10,7 @@
         <mapper class="org.ship.core.dao.node.IpAddrDao"/>
         <mapper class="org.ship.core.dao.node.RouteDao"/>
         <mapper class="org.ship.core.dao.node.DnsDao"/>
+        <mapper class="org.ship.core.dao.sys.ManAddrDao"/>
     </mappers>
 
 </configuration>

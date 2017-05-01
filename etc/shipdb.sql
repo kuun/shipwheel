@@ -4,7 +4,9 @@ DROP TABLE IF EXISTS `ship_user` CASCADE;
 DROP TABLE IF EXISTS `ship_nic_addr` CASCADE;
 DROP TABLE IF EXISTS `ship_nic_route` CASCADE;
 DROP TABLE IF EXISTS `ship_node_nic` CASCADE;
+DROP TABLE IF EXISTS `ship_dns` CASCADE;
 DROP TABLE IF EXISTS `ship_node` CASCADE;
+DROP TABLE IF EXISTS `ship_man_addr` CASCADE;
 
 -- password value is sha256sum
 CREATE TABLE `ship_user` (
@@ -59,6 +61,15 @@ CREATE TABLE `ship_dns` (
 );
 INSERT INTO `ship_dns` (node_id, dns) VALUES (1, '');
 INSERT INTO `ship_dns` (node_id, dns) VALUES (2, '');
+
+CREATE TABLE `ship_man_addr` (
+  `id`       INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `nic_name` VARCHAR(20) NOT NULL,
+  `ip`       VARCHAR(20) NOT NULL,
+  `mask`     VARCHAR(20) NOT NULL,
+  `gateway`  VARCHAR(20) NOT NULL DEFAULT ''
+);
+INSERT INTO `ship_man_addr` (nic_name, ip, mask, gateway) VALUES ('man', '192.168.0.1', '255.255.255.0', '');
 
 COMMIT;
 
