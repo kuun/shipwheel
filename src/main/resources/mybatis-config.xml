@@ -4,6 +4,11 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 
+    <typeHandlers>
+        <typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler"
+                     javaType="org.ship.core.vo.node.ConnType"/>
+    </typeHandlers>
+
     <mappers>
         <mapper class="org.ship.core.dao.user.UserDao"/>
         <mapper class="org.ship.core.dao.node.NicDao"/>
@@ -11,6 +16,7 @@
         <mapper class="org.ship.core.dao.node.RouteDao"/>
         <mapper class="org.ship.core.dao.node.DnsDao"/>
         <mapper class="org.ship.core.dao.sys.ManAddrDao"/>
+        <mapper class="org.ship.core.dao.node.ConnRuleDao"/>
     </mappers>
 
 </configuration>

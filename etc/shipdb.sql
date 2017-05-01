@@ -1,6 +1,7 @@
 use shipdb;
 
 DROP TABLE IF EXISTS `ship_user` CASCADE;
+DROP TABLE IF EXISTS `ship_conn_rule` CASCADE;
 DROP TABLE IF EXISTS `ship_nic_addr` CASCADE;
 DROP TABLE IF EXISTS `ship_nic_route` CASCADE;
 DROP TABLE IF EXISTS `ship_node_nic` CASCADE;
@@ -70,6 +71,20 @@ CREATE TABLE `ship_man_addr` (
   `gateway`  VARCHAR(20) NOT NULL DEFAULT ''
 );
 INSERT INTO `ship_man_addr` (nic_name, ip, mask, gateway) VALUES ('man', '192.168.0.1', '255.255.255.0', '');
+
+CREATE TABLE `ship_conn_rule` (
+  `id`           INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `conn_type`    INT         NOT NULL,
+  `direction`    INT         NOT NULL,
+  `listen_ip_id` INT         NOT NULL,
+  `listen_port`  INT         NOT NULL,
+  `dst_ip`       VARCHAR(20) NOT NULL,
+  `dst_port`     INT         NOT NULL,
+  `conn_ip_id`   INT         NOT NULL,
+  `status`       BOOLEAN     NOT NULL,
+  FOREIGN KEY (listen_ip_id) REFERENCES ship_nic_addr(id) ON UPDATE CASCADE ON DELETE RESTRICT,
+  FOREIGN KEY (conn_ip_id)   REFERENCES ship_nic_addr(id) ON UPDATE CASCADE ON DELETE RESTRICT
+);
 
 COMMIT;
 

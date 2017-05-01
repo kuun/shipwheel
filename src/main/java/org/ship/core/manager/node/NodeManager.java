@@ -1,14 +1,8 @@
 package org.ship.core.manager.node;
 
-import org.ship.core.dao.node.DnsDao;
-import org.ship.core.dao.node.IpAddrDao;
-import org.ship.core.dao.node.NicDao;
-import org.ship.core.dao.node.RouteDao;
+import org.ship.core.dao.node.*;
 import org.ship.core.service.node.INodeService;
-import org.ship.core.vo.node.Dns;
-import org.ship.core.vo.node.IpAddress;
-import org.ship.core.vo.node.Nic;
-import org.ship.core.vo.node.Route;
+import org.ship.core.vo.node.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +25,9 @@ public class NodeManager implements INodeService {
 
     @Autowired
     private DnsDao dnsDao;
+
+    @Autowired
+    private ConnRuleDao connRuleDao;
 
     @Override
     public Collection<Nic> getNicsByNodeId(int nodeId) {
@@ -112,5 +109,40 @@ public class NodeManager implements INodeService {
         Dns newDns = new Dns();
         newDns.setDns(dns);
         return newDns;
+    }
+
+    @Override
+    public Collection<ConnRule> getConnRules() {
+        return connRuleDao.getConnRules();
+    }
+
+    @Override
+    public ConnRule getConnRule(int id) {
+        return connRuleDao.getConnRule(id);
+    }
+
+    @Override
+    public ConnRule createConnRule(ConnRule rule) {
+        connRuleDao.addConnRule(rule);
+        return rule;
+    }
+
+    @Override
+    public ConnRule modConnRule(ConnRule rule) {
+        connRuleDao.modConnRule(rule);
+        return rule;
+    }
+
+    @Override
+    public void deleteConnRule(int id) {
+        connRuleDao.delConnRule(id);
+    }
+
+    @Override
+    public void modConnStatus( boolean status, int id) {
+        ConnRule connRule = connRuleDao.getConnRule(id);
+        if (connRule.isStatus() == status) return;
+        connRule.setStatus(status);
+        connRuleDao.modConnRule(connRule);
     }
 }
