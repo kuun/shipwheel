@@ -9,12 +9,16 @@ import java.util.Collection;
  * Created by wx on 2017/4/30.
  */
 public interface IpAddrDao {
+    @Select("SELECT COUNT(*) FROM ship_nic_addr")
+    int getCount();
+
+    @Select("SELECT * FROM ship_nic_addr WHERE node_id = #{nodeId} ORDER BY id LIMIT #{limit} OFFSET #{offset}")
+    Collection<IpAddress> getIpAddrListByPage(@Param("nodeId") int nodeId,
+                                                @Param("limit") int limit,
+                                                @Param("offset") int offset);
+
     @Select("SELECT * FROM ship_nic_addr WHERE node_id = #{nodeId}")
     Collection<IpAddress> getIpAddrListByNodeId(@Param("nodeId") int nodeId);
-
-    @Select("SELECT * FROM ship_nic_addr WHERE node_id = #{nodeId} AND nic_id = #{nicId}")
-    Collection<IpAddress> getIpAddrListByNodeIdAndNicId(@Param("nodeId") int nodeId,
-                                        @Param("nicId") int nicId);
 
     @Select("SELECT * FROM ship_nic_addr WHERE id = #{id}")
     IpAddress getIpAddr(@Param("id") int id);

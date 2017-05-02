@@ -1,5 +1,6 @@
 package org.ship.core.service.node;
 
+import org.ship.core.util.Pagination;
 import org.ship.core.vo.node.*;
 
 import java.util.Collection;
@@ -11,8 +12,8 @@ public interface INodeService {
     Nic getNic(int nicId);
     Collection<Nic> getNicsByNodeId(int nodeId);
 
-    Collection<IpAddress> getIpAddrList(int nodeId);
-    Collection<IpAddress> getIpAddrList(int noedId, int nicId);
+    Pagination<IpAddress> getIpAddrList(int nodeId, int page, int limit);
+    Collection<IpAddress> getIpAddrList(int noedId);
     IpAddress getIpAddr(int id);
     IpAddress createIpAddr(IpAddress ipaddr);
     IpAddress modIpAddr(IpAddress ipAddr);

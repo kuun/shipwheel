@@ -1,6 +1,7 @@
 package org.ship.core.resource.node;
 
 import org.ship.core.service.node.INodeService;
+import org.ship.core.util.Pagination;
 import org.ship.core.vo.node.IpAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,17 +19,23 @@ public class IpAddressResource {
     @Autowired
     private INodeService nodeService;
 
+    /**
+     * 分页查询
+     * @param nodeId
+     * @param obj
+     * @return
+     */
+    @RequestMapping(value = "/ipAddrList", method = RequestMethod.POST)
+    public Pagination<IpAddress> getIpAddrs(@RequestParam("nodeId") int nodeId,
+                                            @RequestBody Map<String, String> obj) {
+        int page = Integer.parseInt(obj.get("page"));
+        int limit = Integer.parseInt(obj.get("limit"));
+        return nodeService.getIpAddrList(nodeId, page, limit);
+    }
+
     @RequestMapping(value = "/ipAddrList", method = RequestMethod.GET)
-    public Object getIpAddrs(@RequestParam("nodeId") int nodeId,
-                             @RequestParam(value = "nicId", required = false) String nicId) {
-        Object object = null;
-        if (nicId == null) {
-            object = nodeService.getIpAddrList(nodeId);
-        } else {
-            int nic_id = Integer.parseInt(nicId);
-            object = nodeService.getIpAddrList(nodeId, nic_id);
-        }
-        return object;
+    public Collection<IpAddress> getIpAddrList(@RequestParam("nodeId") int nodeId) {
+        return nodeService.getIpAddrList(nodeId);
     }
 
     @RequestMapping(value = "/ipAddr", method = RequestMethod.GET)

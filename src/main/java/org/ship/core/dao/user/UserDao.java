@@ -10,10 +10,10 @@ import java.util.Collection;
  * Created by wx on 2017/4/29.
  */
 public interface UserDao {
-    @Select("select count(*) from ship_user")
+    @Select("SELECT COUNT(*) FROM ship_user")
     int getCount();
 
-    @Select("SELECT * FROM ship_user order by id limit #{limit} offset #{offset}")
+    @Select("SELECT * FROM ship_user ORDER BY id LIMIT #{limit} OFFSET #{offset}")
     Collection<User> getUsers(@Param("offset") int offset,
                               @Param("limit") int limit);
 

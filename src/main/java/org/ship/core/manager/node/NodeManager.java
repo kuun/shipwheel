@@ -1,8 +1,13 @@
 package org.ship.core.manager.node;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.ship.core.dao.node.*;
 import org.ship.core.service.node.INodeService;
+import org.ship.core.util.PageQuery;
+import org.ship.core.util.Pagination;
 import org.ship.core.vo.node.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +18,7 @@ import java.util.Collection;
  */
 @Service
 public class NodeManager implements INodeService {
+    private static final Logger log = LoggerFactory.getLogger(NodeManager.class);
 
     @Autowired
     private NicDao nicDao;
@@ -40,13 +46,20 @@ public class NodeManager implements INodeService {
     }
 
     @Override
-    public Collection<IpAddress> getIpAddrList(int nodeId) {
-        return ipAddrDao.getIpAddrListByNodeId(nodeId);
+    public Pagination<IpAddress> getIpAddrList(int nodeId, int page, int limit) {
+        Pagination<IpAddress> pg = null;
+        try {
+            pg = PageQuery.query(IpAddress.class, page, limit, () -> ipAddrDao.getCount(),
+                    (offset) -> ipAddrDao.getIpAddrListByPage(nodeId,limit, offset));
+        } catch (Exception e) {
+            log.error("error: {}", ExceptionUtils.getStackTrace(e));
+        }
+        return pg;
     }
 
     @Override
-    public Collection<IpAddress> getIpAddrList(int nodeId, int nicId) {
-        return ipAddrDao.getIpAddrListByNodeIdAndNicId(nodeId, nicId);
+    public Collection<IpAddress> getIpAddrList(int nodeId) {
+        return ipAddrDao.getIpAddrListByNodeId(nodeId);
     }
 
     @Override
