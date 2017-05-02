@@ -4,6 +4,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.ship.core.dao.user.UserDao;
 import org.ship.core.service.user.IUserService;
+import org.ship.core.util.PageQuery;
+import org.ship.core.util.Pagination;
 import org.ship.core.vo.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,15 +18,22 @@ import java.util.Collection;
  * Created by wx on 2017/4/29.
  */
 @Service
-public class UserManager implements IUserService{
+public class UserManager implements IUserService {
     private static final Logger log = LoggerFactory.getLogger(UserManager.class);
 
     @Autowired
     private UserDao userDao;
 
     @Override
-    public Collection<User> getUsers() {
-        return userDao.getUsers();
+    public Pagination<User> getUsers(int page, int limit) {
+        Pagination<User> pg = null;
+        try {
+            pg = PageQuery.query(User.class, page, limit, () -> userDao.getCount(),
+                    (offset) -> userDao.getUsers(offset, limit));
+        } catch (Exception e) {
+            log.error("error: {}", ExceptionUtils.getStackTrace(e));
+        }
+        return pg;
     }
 
     @Override
@@ -43,7 +52,7 @@ public class UserManager implements IUserService{
     }
 
     @Override
-    public User createUser(User user)  {
+    public User createUser(User user) {
         userDao.createUser(user);
         return user;
     }

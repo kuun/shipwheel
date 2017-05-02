@@ -10,8 +10,12 @@ import java.util.Collection;
  * Created by wx on 2017/4/29.
  */
 public interface UserDao {
-    @Select("SELECT * FROM ship_user")
-    Collection<User> getUsers();
+    @Select("select count(*) from ship_user")
+    int getCount();
+
+    @Select("SELECT * FROM ship_user order by id limit #{limit} offset #{offset}")
+    Collection<User> getUsers(@Param("offset") int offset,
+                              @Param("limit") int limit);
 
     @Select("SELECT * FROM ship_user WHERE name = #{name}")
     User getUserByName(@Param("name") String name);
