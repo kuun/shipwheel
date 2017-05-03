@@ -5,13 +5,13 @@ package org.ship.core.vo.node;
  */
 public class ConnRule {
     private int id;
-    private ConnType conn_type;
-    private int direction;
-    private int listen_ip_id;
+    private RuleType rule_type;
+    private int direct;
+    private IpAddress listen_addr;
     private int listen_port;
-    private String dst_ip;
+    private String dst_addr;
     private int dst_port;
-    private int conn_ip_id;
+    private IpAddress send_addr;
     private boolean status;
 
     public int getId() {
@@ -22,28 +22,28 @@ public class ConnRule {
         this.id = id;
     }
 
-    public ConnType getConn_type() {
-        return conn_type;
+    public RuleType getRule_type() {
+        return rule_type;
     }
 
-    public void setConn_type(ConnType conn_type) {
-        this.conn_type = conn_type;
+    public void setRule_type(RuleType rule_type) {
+        this.rule_type = rule_type;
     }
 
-    public int getDirection() {
-        return direction;
+    public int getDirect() {
+        return direct;
     }
 
-    public void setDirection(int direction) {
-        this.direction = direction;
+    public void setDirect(int direct) {
+        this.direct = direct;
     }
 
-    public int getListen_ip_id() {
-        return listen_ip_id;
+    public IpAddress getListen_addr() {
+        return listen_addr;
     }
 
-    public void setListen_ip_id(int listen_ip_id) {
-        this.listen_ip_id = listen_ip_id;
+    public void setListen_addr(IpAddress listen_addr) {
+        this.listen_addr = listen_addr;
     }
 
     public int getListen_port() {
@@ -54,12 +54,12 @@ public class ConnRule {
         this.listen_port = listen_port;
     }
 
-    public String getDst_ip() {
-        return dst_ip;
+    public String getDst_addr() {
+        return dst_addr;
     }
 
-    public void setDst_ip(String dst_ip) {
-        this.dst_ip = dst_ip;
+    public void setDst_addr(String dst_addr) {
+        this.dst_addr = dst_addr;
     }
 
     public int getDst_port() {
@@ -70,12 +70,12 @@ public class ConnRule {
         this.dst_port = dst_port;
     }
 
-    public int getConn_ip_id() {
-        return conn_ip_id;
+    public IpAddress getSend_addr() {
+        return send_addr;
     }
 
-    public void setConn_ip_id(int conn_ip_id) {
-        this.conn_ip_id = conn_ip_id;
+    public void setSend_addr(IpAddress send_addr) {
+        this.send_addr = send_addr;
     }
 
     public boolean isStatus() {
@@ -90,13 +90,13 @@ public class ConnRule {
     public String toString() {
         return "ConnRule{" +
                 "id=" + id +
-                ", conn_type=" + conn_type +
-                ", direction=" + direction +
-                ", listen_ip_id=" + listen_ip_id +
+                ", rule_type=" + rule_type +
+                ", direct=" + direct +
+                ", listen_addr=" + listen_addr +
                 ", listen_port=" + listen_port +
-                ", dst_ip='" + dst_ip + '\'' +
+                ", dst_addr='" + dst_addr + '\'' +
                 ", dst_port=" + dst_port +
-                ", conn_ip_id=" + conn_ip_id +
+                ", send_addr=" + send_addr +
                 ", status=" + status +
                 '}';
     }

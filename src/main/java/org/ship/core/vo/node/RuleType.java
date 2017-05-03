@@ -3,13 +3,13 @@ package org.ship.core.vo.node;
 /**
  * Created by wx on 2017/5/1.
  */
-public enum ConnType {
+public enum RuleType {
     TCP(0),
     HTTP(1);
 
     private final int value;
 
-    private ConnType(int value) {
+    private RuleType(int value) {
         this.value = value;
     }
 
@@ -17,7 +17,7 @@ public enum ConnType {
         return value;
     }
 
-    public static ConnType findByValue(int value) {
+    public static RuleType findByValue(int value) {
         switch (value) {
             case 0:
                 return TCP;

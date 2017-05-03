@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.ship.core.dao.node.ConnRuleDao">
+    <resultMap id="ConnRule" type="ConnRule" autoMapping="true">
+        <id property="id" column="id"></id>
+        <association property="listen_addr" javaType="IpAddress">
+            <id property="id" column="listen_addr_id"/>
+            <result property="ip" column="listen_addr_ip"/>
+            <result property="mask" column="listen_addr_mask"/>
+        </association>
+        <association property="send_addr" javaType="IpAddress">
+            <id property="id" column="send_addr_id"/>
+            <result property="ip" column="send_addr_ip"/>
+            <result property="mask" column="send_addr_mask"/>
+        </association>
+    </resultMap>
+
+    <sql id="queryConnRule">
+        SELECT
+          rule.id,
+          rule_type,
+          direct,
+          listen_port,
+          dst_addr,
+          dst_port,
+          status,
+          listen.id    AS listen_addr_id,
+          listen.ip    AS listen_addr_ip,
+          listen.mask AS listen_addr_mask,
+          send.id      AS send_addr_id,
+          send.ip      AS send_addr_ip,
+          send.mask    AS send_addr_mask
+        FROM ship_conn_rule AS rule
+          INNER JOIN ship_nic_addr AS listen ON rule.listen_addr_id = listen.id
+          INNER JOIN ship_nic_addr AS send   ON rule.send_addr_id = send.id
+    </sql>
+
+    <select id="getConnRules" resultMap="ConnRule">
+        <include refid="queryConnRule"/>
+        ORDER BY rule.id LIMIT #{limit} OFFSET #{offset}
+    </select>
+</mapper>

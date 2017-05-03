@@ -74,16 +74,16 @@ INSERT INTO `ship_man_addr` (nic_name, ip, mask, gateway) VALUES ('man', '192.16
 
 CREATE TABLE `ship_conn_rule` (
   `id`           INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `conn_type`    INT         NOT NULL,
-  `direction`    INT         NOT NULL,
-  `listen_ip_id` INT         NOT NULL,
+  `rule_type`    INT         NOT NULL,
+  `direct`    INT         NOT NULL,
+  `listen_addr_id` INT         NOT NULL,
   `listen_port`  INT         NOT NULL,
-  `dst_ip`       VARCHAR(20) NOT NULL,
+  `dst_addr`       VARCHAR(20) NOT NULL,
   `dst_port`     INT         NOT NULL,
-  `conn_ip_id`   INT         NOT NULL,
+  `send_addr_id`   INT         NOT NULL,
   `status`       BOOLEAN     NOT NULL,
-  FOREIGN KEY (listen_ip_id) REFERENCES ship_nic_addr(id) ON UPDATE CASCADE ON DELETE RESTRICT,
-  FOREIGN KEY (conn_ip_id)   REFERENCES ship_nic_addr(id) ON UPDATE CASCADE ON DELETE RESTRICT
+  FOREIGN KEY (listen_addr_id) REFERENCES ship_nic_addr(id) ON UPDATE CASCADE ON DELETE RESTRICT,
+  FOREIGN KEY (send_addr_id)   REFERENCES ship_nic_addr(id) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
 COMMIT;

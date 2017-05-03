@@ -4,9 +4,14 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 
+    <typeAliases>
+        <typeAlias type="org.ship.core.vo.node.ConnRule" alias="ConnRule"/>
+        <typeAlias type="org.ship.core.vo.node.IpAddress" alias="IpAddress"/>
+    </typeAliases>
+
     <typeHandlers>
         <typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler"
-                     javaType="org.ship.core.vo.node.ConnType"/>
+                     javaType="org.ship.core.vo.node.RuleType"/>
     </typeHandlers>
 
     <mappers>
@@ -17,6 +22,8 @@
         <mapper class="org.ship.core.dao.node.DnsDao"/>
         <mapper class="org.ship.core.dao.sys.ManAddrDao"/>
         <mapper class="org.ship.core.dao.node.ConnRuleDao"/>
+
+        <mapper resource="mapper/conn-rule.xml"/>
     </mappers>
 
 </configuration>

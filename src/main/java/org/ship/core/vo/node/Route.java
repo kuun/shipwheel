@@ -10,6 +10,7 @@ public class Route {
     private int nic_id;
     private int node_id;
     private String gateway;
+    private String nicName;
 
     public int getId() {
         return id;
@@ -59,6 +60,14 @@ public class Route {
         this.gateway = gateway;
     }
 
+    public String getNicName() {
+        return nicName;
+    }
+
+    public void setNicName(String nicName) {
+        this.nicName = nicName;
+    }
+
     @Override
     public String toString() {
         return "Route{" +
@@ -68,6 +77,7 @@ public class Route {
                 ", nic_id=" + nic_id +
                 ", node_id=" + node_id +
                 ", gateway='" + gateway + '\'' +
+                ", nicName='" + nicName + '\'' +
                 '}';
     }
 }

@@ -9,13 +9,13 @@ import java.util.Collection;
  * Created by wx on 2017/4/30.
  */
 public interface IpAddrDao {
-    String SELECT_SQL = "SELECT addr.id, addr.nic_id, addr.node_id, addr.ip, addr.mask, nic.name AS nicName " +
+    String SQL = "SELECT addr.id, addr.nic_id, addr.node_id, addr.ip, addr.mask, nic.name AS nicName " +
             "FROM ship_nic_addr AS addr INNER JOIN ship_node_nic AS nic ON addr.nic_id = nic.id ";
 
     @Select("SELECT COUNT(*) FROM ship_nic_addr where node_id = #{nodeId}")
     int getCount(@Param("nodeId") int nodeId);
 
-    @Select(SELECT_SQL + "WHERE addr.node_id = #{nodeId} ORDER BY id LIMIT #{limit} OFFSET #{offset}")
+    @Select(SQL + "WHERE addr.node_id = #{nodeId} ORDER BY id LIMIT #{limit} OFFSET #{offset}")
     Collection<IpAddress> getIpAddrListByPage(@Param("nodeId") int nodeId,
                                                 @Param("limit") int limit,
                                                 @Param("offset") int offset);

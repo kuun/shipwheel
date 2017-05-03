@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.Random;
 
 /**
  * Created by wx on 2017/4/29.
@@ -86,8 +87,15 @@ public class NodeManager implements INodeService {
     }
 
     @Override
-    public Collection<Route> getRoutes(int nodeId) {
-        return routeDao.getRoutes(nodeId);
+    public Pagination<Route> getRoutes(int nodeId, int page, int limit) throws SQLException {
+        Pagination<Route> pg = null;
+        try {
+            pg = PageQuery.query(Route.class, page, limit, () -> routeDao.getCount(nodeId),
+                    (offset) ->routeDao.getRoutes(nodeId, limit, offset));
+        } catch (Exception e) {
+            log.error("error: {}", ExceptionUtils.getStackTrace(e));
+        }
+        return pg;
     }
 
     @Override
@@ -126,8 +134,16 @@ public class NodeManager implements INodeService {
     }
 
     @Override
-    public Collection<ConnRule> getConnRules() {
-        return connRuleDao.getConnRules();
+    public Pagination<ConnRule> getConnRules(int page, int limit) throws SQLException {
+        Pagination<ConnRule> pg = null;
+        try {
+            pg = PageQuery.query(ConnRule.class, page, limit, () -> connRuleDao.getCount(),
+                    (offset) -> connRuleDao.getConnRules(limit, offset));
+        } catch (Exception e) {
+            log.error("error: {}", ExceptionUtils.getStackTrace(e));
+            throw e;
+        }
+        return pg;
     }
 
     @Override

@@ -20,7 +20,7 @@ public interface INodeService {
     IpAddress modIpAddr(IpAddress ipAddr);
     void deleteIpAddr(int id);
 
-    Collection<Route> getRoutes(int nodeId);
+    Pagination<Route> getRoutes(int nodeId, int page, int limit) throws SQLException;
     Route getRoute(int id);
     Route createRoute(Route route);
     Route modRoute(Route route);
@@ -29,7 +29,7 @@ public interface INodeService {
     Dns getDns(int nodeId);
     Dns modDns(int nodeId, String dns);
 
-    Collection<ConnRule> getConnRules();
+    Pagination<ConnRule> getConnRules(int page, int limit) throws SQLException;
     ConnRule getConnRule(int id);
     ConnRule createConnRule(ConnRule rule);
     ConnRule modConnRule(ConnRule rule);

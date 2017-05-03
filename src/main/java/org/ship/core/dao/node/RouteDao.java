@@ -9,8 +9,16 @@ import java.util.Collection;
  * Created by wx on 2017/4/30.
  */
 public interface RouteDao {
-    @Select("SELECT * FROM ship_nic_route WHERE node_id = #{nodeId}")
-    Collection<Route> getRoutes(@Param("nodeId") int nodeId);
+    String SQL = "SELECT nicRoute.id, nicRoute.subnet, nicRoute.mask, nicRoute.nic_id, nicRoute.node_id, nicRoute.gateway, nic.name AS nicName " +
+            "FROM ship_nic_route AS nicRoute INNER JOIN ship_node_nic AS nic ON nicRoute.nic_id = nic.id ";
+
+    @Select("SELECT COUNT(*) FROM ship_nic_route WHERE node_id = #{nodeId}")
+    int getCount(@Param("nodeId") int nodeId);
+
+    @Select(SQL + "WHERE nicRoute.node_id = #{nodeId} ORDER BY id LIMIT #{limit} OFFSET #{offset}")
+    Collection<Route> getRoutes(@Param("nodeId") int nodeId,
+                                @Param("limit") int limit,
+                                @Param("offset") int offset);
 
     @Select("SELECT * FROM ship_nic_route WHERE id = #{id}")
     Route getRoute(@Param("id") int id);
