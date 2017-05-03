@@ -3,6 +3,7 @@ package org.ship.core.service.node;
 import org.ship.core.util.Pagination;
 import org.ship.core.vo.node.*;
 
+import java.sql.SQLException;
 import java.util.Collection;
 
 /**
@@ -12,7 +13,7 @@ public interface INodeService {
     Nic getNic(int nicId);
     Collection<Nic> getNicsByNodeId(int nodeId);
 
-    Pagination<IpAddress> getIpAddrList(int nodeId, int page, int limit);
+    Pagination<IpAddress> getIpAddrList(int nodeId, int page, int limit) throws SQLException;
     Collection<IpAddress> getIpAddrList(int noedId);
     IpAddress getIpAddr(int id);
     IpAddress createIpAddr(IpAddress ipaddr);

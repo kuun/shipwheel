@@ -9,6 +9,7 @@ public class IpAddress {
     private int node_id;
     private String ip;
     private String mask;
+    private String nicName;
 
     public int getId() {
         return id;
@@ -50,13 +51,23 @@ public class IpAddress {
         this.mask = mask;
     }
 
+    public String getNicName() {
+        return nicName;
+    }
+
+    public void setNicName(String nicName) {
+        this.nicName = nicName;
+    }
+
     @Override
     public String toString() {
         return "IpAddress{" +
                 "id=" + id +
                 ", nic_id=" + nic_id +
+                ", node_id=" + node_id +
                 ", ip='" + ip + '\'' +
                 ", mask='" + mask + '\'' +
+                ", nicName='" + nicName + '\'' +
                 '}';
     }
 }

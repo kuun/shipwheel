@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.Collection;
 
 /**
@@ -46,10 +47,10 @@ public class NodeManager implements INodeService {
     }
 
     @Override
-    public Pagination<IpAddress> getIpAddrList(int nodeId, int page, int limit) {
+    public Pagination<IpAddress> getIpAddrList(int nodeId, int page, int limit) throws SQLException {
         Pagination<IpAddress> pg = null;
         try {
-            pg = PageQuery.query(IpAddress.class, page, limit, () -> ipAddrDao.getCount(),
+            pg = PageQuery.query(IpAddress.class, page, limit, () -> ipAddrDao.getCount(nodeId),
                     (offset) -> ipAddrDao.getIpAddrListByPage(nodeId,limit, offset));
         } catch (Exception e) {
             log.error("error: {}", ExceptionUtils.getStackTrace(e));

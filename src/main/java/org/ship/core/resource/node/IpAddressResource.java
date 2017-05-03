@@ -6,6 +6,7 @@ import org.ship.core.vo.node.IpAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +28,7 @@ public class IpAddressResource {
      */
     @RequestMapping(value = "/ipAddrList", method = RequestMethod.POST)
     public Pagination<IpAddress> getIpAddrs(@RequestParam("nodeId") int nodeId,
-                                            @RequestBody Map<String, String> obj) {
+                                            @RequestBody Map<String, String> obj) throws SQLException {
         int page = Integer.parseInt(obj.get("page"));
         int limit = Integer.parseInt(obj.get("limit"));
         return nodeService.getIpAddrList(nodeId, page, limit);
