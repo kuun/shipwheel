@@ -19,12 +19,12 @@ public class IpAddress {
         this.id = id;
     }
 
-    public int getNic_id() {
+    public int getIface_id() {
         return iface_id;
     }
 
-    public void setNic_id(int nic_id) {
-        this.iface_id = nic_id;
+    public void setIface_id(int iface_id) {
+        this.iface_id = iface_id;
     }
 
     public int getNode_id() {
@@ -49,14 +49,6 @@ public class IpAddress {
 
     public void setMask(String mask) {
         this.mask = mask;
-    }
-
-    public int getIface_id() {
-        return iface_id;
-    }
-
-    public void setIface_id(int iface_id) {
-        this.iface_id = iface_id;
     }
 
     public String getIfaceName() {
