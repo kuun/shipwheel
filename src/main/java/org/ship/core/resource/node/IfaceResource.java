@@ -1,7 +1,7 @@
 package org.ship.core.resource.node;
 
 import org.ship.core.service.node.INodeService;
-import org.ship.core.vo.node.Nic;
+import org.ship.core.vo.node.Iface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,22 +14,22 @@ import java.util.Collection;
  * Created by wx on 2017/4/29.
  */
 @RestController
-@RequestMapping(value = "/ship/node/nic")
-public class NicResource {
+@RequestMapping(value = "/ship/node/iface")
+public class IfaceResource {
     @Autowired
     private INodeService nodeService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public Object getNics(@RequestParam(value = "nodeId", required = false) String nodeId,
-                          @RequestParam(value = "nicId", required = false) String nicId) {
+    public Object getIfaces(@RequestParam(value = "nodeId", required = false) String nodeId,
+                          @RequestParam(value = "ifaceId", required = false) String ifaceId) {
         Object object = null;
-        if (nicId != null) {
-            int nic_id = Integer.parseInt(nicId);
-            object = nodeService.getNic(nic_id);
+        if (ifaceId != null) {
+            int iface_id = Integer.parseInt(ifaceId);
+            object = nodeService.getIface(iface_id);
         }
         if (nodeId != null) {
             int node_id = Integer.parseInt(nodeId);
-            object = nodeService.getNicsByNodeId(node_id);
+            object = nodeService.getIfacesByNodeId(node_id);
         }
         return object;
     }

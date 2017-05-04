@@ -3,7 +3,7 @@ package org.ship.core.vo.node;
 /**
  * Created by wx on 2017/4/29.
  */
-public class Nic {
+public class Iface {
     private int id;
     private String name;
     private int node_id;
@@ -34,7 +34,7 @@ public class Nic {
 
     @Override
     public String toString() {
-        return "Nic{" +
+        return "Iface{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", node_id=" + node_id +

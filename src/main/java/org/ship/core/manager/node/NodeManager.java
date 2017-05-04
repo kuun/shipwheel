@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 import java.util.Collection;
-import java.util.Random;
 
 /**
  * Created by wx on 2017/4/29.
@@ -23,7 +22,7 @@ public class NodeManager implements INodeService {
     private static final Logger log = LoggerFactory.getLogger(NodeManager.class);
 
     @Autowired
-    private NicDao nicDao;
+    private IfaceDao ifaceDao;
 
     @Autowired
     private IpAddrDao ipAddrDao;
@@ -38,13 +37,13 @@ public class NodeManager implements INodeService {
     private ConnRuleDao connRuleDao;
 
     @Override
-    public Collection<Nic> getNicsByNodeId(int nodeId) {
-        return nicDao.getNicsByNodeId(nodeId);
+    public Collection<Iface> getIfacesByNodeId(int nodeId) {
+        return ifaceDao.getIfacesByNodeId(nodeId);
     }
 
     @Override
-    public Nic getNic(int nicId) {
-        return nicDao.getNic(nicId);
+    public Iface getIface(int ifaceId) {
+        return ifaceDao.getIface(ifaceId);
     }
 
     @Override

@@ -32,12 +32,17 @@
           send.ip      AS send_addr_ip,
           send.mask    AS send_addr_mask
         FROM ship_conn_rule AS rule
-          INNER JOIN ship_nic_addr AS listen ON rule.listen_addr_id = listen.id
-          INNER JOIN ship_nic_addr AS send   ON rule.send_addr_id = send.id
+          INNER JOIN ship_iface_addr AS listen ON rule.listen_addr_id = listen.id
+          INNER JOIN ship_iface_addr AS send   ON rule.send_addr_id = send.id
     </sql>
 
     <select id="getConnRules" resultMap="ConnRule">
         <include refid="queryConnRule"/>
         ORDER BY rule.id LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="getConnRule" resultMap="ConnRule" parameterType="int">
+        <include refid="queryConnRule"/>
+        WHERE rule.id = #{id}
     </select>
 </mapper>

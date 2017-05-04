@@ -7,10 +7,10 @@ public class Route {
     private int id;
     private String subnet;
     private String mask;
-    private int nic_id;
+    private int iface_id;
     private int node_id;
     private String gateway;
-    private String nicName;
+    private String ifaceName;
 
     public int getId() {
         return id;
@@ -36,12 +36,12 @@ public class Route {
         this.mask = mask;
     }
 
-    public int getNic_id() {
-        return nic_id;
+    public int getIface_id() {
+        return iface_id;
     }
 
-    public void setNic_id(int nic_id) {
-        this.nic_id = nic_id;
+    public void setIface_id(int iface_id) {
+        this.iface_id = iface_id;
     }
 
     public int getNode_id() {
@@ -60,12 +60,12 @@ public class Route {
         this.gateway = gateway;
     }
 
-    public String getNicName() {
-        return nicName;
+    public String getIfaceName() {
+        return ifaceName;
     }
 
-    public void setNicName(String nicName) {
-        this.nicName = nicName;
+    public void setIfaceName(String ifaceName) {
+        this.ifaceName = ifaceName;
     }
 
     @Override
@@ -74,10 +74,10 @@ public class Route {
                 "id=" + id +
                 ", subnet='" + subnet + '\'' +
                 ", mask='" + mask + '\'' +
-                ", nic_id=" + nic_id +
+                ", iface_id=" + iface_id +
                 ", node_id=" + node_id +
                 ", gateway='" + gateway + '\'' +
-                ", nicName='" + nicName + '\'' +
+                ", ifaceName='" + ifaceName + '\'' +
                 '}';
     }
 }

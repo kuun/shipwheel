@@ -5,7 +5,7 @@ package org.ship.core.vo.sys;
  */
 public class ManAddr {
     private int id;
-    private String nic_name;
+    private String iface_name;
     private String ip;
     private String mask;
     private String gateway;
@@ -18,12 +18,12 @@ public class ManAddr {
         this.id = id;
     }
 
-    public String getNic_name() {
-        return nic_name;
+    public String getIface_name() {
+        return iface_name;
     }
 
-    public void setNic_name(String nic_name) {
-        this.nic_name = nic_name;
+    public void setIface_name(String iface_name) {
+        this.iface_name = iface_name;
     }
 
     public String getIp() {
@@ -54,7 +54,7 @@ public class ManAddr {
     public String toString() {
         return "ManAddr{" +
                 "id=" + id +
-                ", nic_name='" + nic_name + '\'' +
+                ", iface_name='" + iface_name + '\'' +
                 ", ip='" + ip + '\'' +
                 ", mask='" + mask + '\'' +
                 ", gateway='" + gateway + '\'' +

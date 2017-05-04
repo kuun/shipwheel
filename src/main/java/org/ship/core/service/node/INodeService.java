@@ -10,8 +10,8 @@ import java.util.Collection;
  * Created by wx on 2017/4/29.
  */
 public interface INodeService {
-    Nic getNic(int nicId);
-    Collection<Nic> getNicsByNodeId(int nodeId);
+    Iface getIface(int ifaceId);
+    Collection<Iface> getIfacesByNodeId(int nodeId);
 
     Pagination<IpAddress> getIpAddrList(int nodeId, int page, int limit) throws SQLException;
     Collection<IpAddress> getIpAddrList(int noedId);

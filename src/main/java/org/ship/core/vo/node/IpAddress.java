@@ -5,11 +5,11 @@ package org.ship.core.vo.node;
  */
 public class IpAddress {
     private int id;
-    private int nic_id;
+    private int iface_id;
     private int node_id;
     private String ip;
     private String mask;
-    private String nicName;
+    private String ifaceName;
 
     public int getId() {
         return id;
@@ -20,11 +20,11 @@ public class IpAddress {
     }
 
     public int getNic_id() {
-        return nic_id;
+        return iface_id;
     }
 
     public void setNic_id(int nic_id) {
-        this.nic_id = nic_id;
+        this.iface_id = nic_id;
     }
 
     public int getNode_id() {
@@ -51,23 +51,31 @@ public class IpAddress {
         this.mask = mask;
     }
 
-    public String getNicName() {
-        return nicName;
+    public int getIface_id() {
+        return iface_id;
     }
 
-    public void setNicName(String nicName) {
-        this.nicName = nicName;
+    public void setIface_id(int iface_id) {
+        this.iface_id = iface_id;
+    }
+
+    public String getIfaceName() {
+        return ifaceName;
+    }
+
+    public void setIfaceName(String ifaceName) {
+        this.ifaceName = ifaceName;
     }
 
     @Override
     public String toString() {
         return "IpAddress{" +
                 "id=" + id +
-                ", nic_id=" + nic_id +
+                ", iface_id=" + iface_id +
                 ", node_id=" + node_id +
                 ", ip='" + ip + '\'' +
                 ", mask='" + mask + '\'' +
-                ", nicName='" + nicName + '\'' +
+                ", ifaceName='" + ifaceName + '\'' +
                 '}';
     }
 }
