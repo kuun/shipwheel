@@ -38,11 +38,13 @@ public class UserResource {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public void modUser(@RequestBody Map<String, String> obj) throws Exception{
+    public Object modUser(@RequestBody Map<String, String> obj) throws Exception{
+        Object object = null;
         String name = obj.get("name");
         String oldPwd = obj.get("old_pwd");
         String newPwd = obj.get("new_pwd");
-        userService.modUser(name, oldPwd, newPwd);
+        object = userService.modUser(name, oldPwd, newPwd);
+        return object;
     }
 
     @RequestMapping(method = RequestMethod.POST)

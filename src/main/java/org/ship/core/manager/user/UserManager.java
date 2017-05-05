@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by wx on 2017/4/29.
@@ -42,13 +44,24 @@ public class UserManager implements IUserService {
     }
 
     @Override
-    public void modUser(String name, String oldPwd, String newPwd) throws Exception {
-        User user = userDao.getUserByNameAndPwd(name, oldPwd);
-        log.debug("user: {}", user);
-        if (user == null) {
-            throw new Exception("user name or password is invalid");
+    public Map<String, String> modUser(String name, String oldPwd, String newPwd) throws Exception {
+        Map<String, String> map = new HashMap<>();
+        try {
+            User user = userDao.getUserByNameAndPwd(name, oldPwd);
+            log.debug("user: {}", user);
+            if (user == null) {
+                map.put("flag", "1");
+                map.put("msg", "用户名或密码不正确");
+                return map;
+            }
+            userDao.modUser(name, newPwd);
+            map.put("flag", "0");
+            map.put("msg", "修改成功");
+        } catch (Exception e) {
+            log.error("mod password error: {}", ExceptionUtils.getStackTrace(e));
+            throw new Exception("修改异常");
         }
-        userDao.modUser(name, newPwd);
+        return map;
     }
 
     @Override
@@ -58,18 +71,7 @@ public class UserManager implements IUserService {
     }
 
     @Override
-    public boolean login(String name, String password) {
-        boolean bool = false;
-        try {
-            User user = userDao.getUserByNameAndPwd(name, password);
-            if (user == null) {
-                throw new Exception("user name or password is invalid");
-            }
-            bool = true;
-        } catch (Exception e) {
-            log.error("login error: {}", ExceptionUtils.getStackTrace(e));
-        }
-        return bool;
+    public User login(String name, String password) {
+        return userDao.getUserByNameAndPwd(name, password);
     }
-
 }
