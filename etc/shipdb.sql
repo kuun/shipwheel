@@ -34,11 +34,11 @@ CREATE TABLE `ship_node_iface` (
 );
 
 CREATE TABLE `ship_iface_addr` (
-  `id`      INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `iface_id`  INT         NOT NULL,
-  `node_id` INT         NOT NULL,
-  `ip`      VARCHAR(20) NOT NULL,
-  `mask`    VARCHAR(20) NOT NULL,
+  `id`       INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `iface_id` INT         NOT NULL,
+  `node_id`  INT         NOT NULL,
+  `ip`       VARCHAR(20) NOT NULL,
+  `mask`     VARCHAR(20) NOT NULL,
   FOREIGN KEY (iface_id)  REFERENCES ship_node_iface(id) ON DELETE RESTRICT,
   FOREIGN KEY (node_id) REFERENCES ship_node(id)     ON DELETE RESTRICT
 );
@@ -64,24 +64,24 @@ INSERT INTO `ship_dns` (node_id, dns) VALUES (1, '');
 INSERT INTO `ship_dns` (node_id, dns) VALUES (2, '');
 
 CREATE TABLE `ship_man_addr` (
-  `id`       INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `id`         INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `iface_name` VARCHAR(20) NOT NULL,
-  `ip`       VARCHAR(20) NOT NULL,
-  `mask`     VARCHAR(20) NOT NULL,
-  `gateway`  VARCHAR(20) NOT NULL DEFAULT ''
+  `ip`         VARCHAR(20) NOT NULL,
+  `mask`       VARCHAR(20) NOT NULL,
+  `gateway`    VARCHAR(20) NOT NULL DEFAULT ''
 );
 INSERT INTO `ship_man_addr` (iface_name, ip, mask, gateway) VALUES ('man', '192.168.0.1', '255.255.255.0', '');
 
 CREATE TABLE `ship_conn_rule` (
-  `id`           INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `rule_type`    INT         NOT NULL,
-  `direct`    INT         NOT NULL,
+  `id`             INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `rule_type`      INT         NOT NULL,
+  `direct`         INT         NOT NULL,
   `listen_addr_id` INT         NOT NULL,
-  `listen_port`  INT         NOT NULL,
+  `listen_port`    INT         NOT NULL,
   `dst_addr`       VARCHAR(20) NOT NULL,
-  `dst_port`     INT         NOT NULL,
+  `dst_port`       INT         NOT NULL,
   `send_addr_id`   INT         NOT NULL,
-  `status`       BOOLEAN     NOT NULL,
+  `status`         BOOLEAN     NOT NULL,
   FOREIGN KEY (listen_addr_id) REFERENCES ship_iface_addr(id) ON UPDATE CASCADE ON DELETE RESTRICT,
   FOREIGN KEY (send_addr_id)   REFERENCES ship_iface_addr(id) ON UPDATE CASCADE ON DELETE RESTRICT
 );
