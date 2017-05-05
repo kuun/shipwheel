@@ -12,6 +12,7 @@ import java.util.Collection;
 public interface ConnRuleDao {
     Collection<ConnRule> getConnRules(@Param("limit") int limit, @Param("offset") int offset);
     ConnRule getConnRule(@Param("id") int id);
+    Collection<ConnRule> getConnRuleByIpAddrId(@Param("ipAddrId") int ipAddrId);
 
 
     @Select("SELECT COUNT(*) FROM ship_conn_rule")

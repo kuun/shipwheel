@@ -45,4 +45,9 @@
         <include refid="queryConnRule"/>
         WHERE rule.id = #{id}
     </select>
+
+    <select id="getConnRuleByIpAddrId" resultMap="ConnRule" parameterType="int">
+        <include refid="queryConnRule"/>
+        WHERE rule.listen_addr_id = #{ipAddrId} OR rule.send_addr_id = #{ipAddrId}
+    </select>
 </mapper>

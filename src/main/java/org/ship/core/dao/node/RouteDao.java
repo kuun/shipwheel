@@ -33,4 +33,7 @@ public interface RouteDao {
 
     @Delete("delete from ship_iface_route where id = #{id}")
     void deleteRoute(@Param("id") int id);
+
+    @Delete("delete from ship_iface_route where iface_id = #{ifaceId}")
+    void delRouteOnIface(@Param("ifaceId") int ifaceId);
 }

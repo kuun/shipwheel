@@ -26,6 +26,12 @@ public interface IpAddrDao {
     @Select("SELECT * FROM ship_iface_addr WHERE id = #{id}")
     IpAddress getIpAddr(@Param("id") int id);
 
+    @Select("SELECT * FROM ship_iface_addr WHERE node_id = #{nodeId} AND ip = #{ip}")
+    IpAddress getIpAddrByNodeIdAndIp(@Param("nodeId") int nodeId, @Param("ip") String ip);
+
+    @Select("select * from ship_iface_addr where iface_id = #{ifaceId}")
+    Collection<IpAddress> getIpAddrByIfaceId(@Param("ifaceId") int ifaceId);
+
     @Insert("INSERT INTO ship_iface_addr (iface_id, node_id, ip, mask) VALUES (#{iface_id}, #{node_id}, #{ip}, #{mask})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void createIpAddr(IpAddress ipAddress);

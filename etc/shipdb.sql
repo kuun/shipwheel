@@ -37,7 +37,7 @@ CREATE TABLE `ship_iface_addr` (
   `id`      INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `iface_id`  INT         NOT NULL,
   `node_id` INT         NOT NULL,
-  `ip`      VARCHAR(20) NOT NULL UNIQUE,
+  `ip`      VARCHAR(20) NOT NULL,
   `mask`    VARCHAR(20) NOT NULL,
   FOREIGN KEY (iface_id)  REFERENCES ship_node_iface(id) ON DELETE RESTRICT,
   FOREIGN KEY (node_id) REFERENCES ship_node(id)     ON DELETE RESTRICT

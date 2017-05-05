@@ -1,5 +1,6 @@
 package org.ship.core.resource.node;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.ship.core.service.node.INodeService;
 import org.ship.core.util.Pagination;
 import org.ship.core.vo.node.IpAddress;
@@ -45,17 +46,23 @@ public class IpAddressResource {
     }
 
     @RequestMapping(value = "/ipAddr", method = RequestMethod.POST)
-    public IpAddress createIpAddr(@RequestBody IpAddress ipAddr) {
-        return nodeService.createIpAddr(ipAddr);
+    public Object createIpAddr(@RequestBody IpAddress ipAddr) throws Exception {
+        Object object = null;
+        object = nodeService.createIpAddr(ipAddr);
+        return object;
     }
 
     @RequestMapping(value = "/ipAddr", method = RequestMethod.PUT)
-    public IpAddress modIpaddr(@RequestBody IpAddress ipaddr) {
-        return nodeService.modIpAddr(ipaddr);
+    public Object modIpaddr(@RequestBody IpAddress ipaddr) throws Exception {
+        Object object = null;
+        object =  nodeService.modIpAddr(ipaddr);
+        return object;
     }
 
     @RequestMapping(value = "/ipAddr", method = RequestMethod.DELETE)
-    public void deleteIpAddr(@RequestParam("id") int id) {
-        nodeService.deleteIpAddr(id);
+    public Object deleteIpAddr(@RequestParam("id") int id) throws Exception{
+        Object object = null;
+        object = nodeService.deleteIpAddr(id);
+        return object;
     }
 }
