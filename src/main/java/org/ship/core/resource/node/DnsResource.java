@@ -22,8 +22,10 @@ public class DnsResource {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public Dns modDns(@RequestBody Map<String, String> obj) {
+    public Object modDns(@RequestBody Map<String, String> obj) throws Exception {
+        Object object = null;
         int nodeId = Integer.parseInt(obj.get("node_id"));
-        return  nodeService.modDns(nodeId, obj.get("dns"));
+        object = nodeService.modDns(nodeId, obj.get("dns"));
+        return object;
     }
 }

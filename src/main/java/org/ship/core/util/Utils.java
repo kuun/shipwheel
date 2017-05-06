@@ -2,10 +2,35 @@ package org.ship.core.util;
 
 import com.oracle.jrockit.jfr.InvalidValueException;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 /**
  * Created by wx on 2017/4/30.
  */
 public class Utils {
+    static public class ExecReturn {
+        public int exitCode;
+        public String stdout;
+        public String stderr;
+
+        public ExecReturn(int exitCode, String stdout, String stderr) {
+            this.exitCode = exitCode;
+            this.stdout = stdout;
+            this.stderr = stderr;
+        }
+
+        @Override
+        public String toString() {
+            return "ExecReturn{" +
+                    "exitCode='" + exitCode + '\'' +
+                    ", stdout='" + stdout + '\'' +
+                    ", stderr='" + stderr + '\'' +
+                    '}';
+        }
+    }
+
     static public int zeroCount(long n) {
         long k;
         int count = 63;
@@ -141,5 +166,27 @@ public class Utils {
         if (nGateway == netAddr + ipCount) {
             throw new Exception("gateway can't be broadcast address");
         }
+    }
+
+    // execute a command and return
+    static public ExecReturn exec(String[] cmd) throws IOException, InterruptedException {
+        Runtime rt = Runtime.getRuntime();
+        Process process = rt.exec(cmd);
+        process.getErrorStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        StringBuilder stdoutBuilder = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            stdoutBuilder.append('\n');
+            stdoutBuilder.append(line);
+        }
+        br = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+        StringBuilder stderrBuilder = new StringBuilder();
+        while ((line = br.readLine()) != null) {
+            stderrBuilder.append('\n');
+            stderrBuilder.append(line);
+        }
+        process.waitFor();
+        return new ExecReturn(process.exitValue(), stdoutBuilder.toString(), stderrBuilder.toString());
     }
 }

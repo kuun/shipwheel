@@ -18,6 +18,10 @@ public interface ConnRuleDao {
     @Select("SELECT COUNT(*) FROM ship_conn_rule")
     int getCount();
 
+    @Select("select id from ship_conn_rule where listen_port = #{listen_port} and listen_addr_id = #{listen_addr_id}")
+    Collection<Integer> getIdByTcp(@Param("listen_port") int listen_port,
+                                   @Param("listen_addr_id") int listen_addr_id);
+
     @Insert("INSERT INTO ship_conn_rule (rule_type, direct, listen_addr_id, listen_port, dst_addr, dst_port, send_addr_id, status) " +
             "VALUES (#{rule_type}, #{direct}, #{listen_addr.id}, #{listen_port}, #{dst_addr}, #{dst_port}, #{send_addr.id}, #{status})")
     @Options(useGeneratedKeys = true, keyProperty = "id")

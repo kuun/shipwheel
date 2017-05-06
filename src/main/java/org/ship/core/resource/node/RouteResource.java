@@ -32,17 +32,23 @@ public class RouteResource {
     }
 
     @RequestMapping(value = "/route", method = RequestMethod.POST)
-    public Route createRoute(@RequestBody Route route) {
-        return nodeService.createRoute(route);
+    public Object createRoute(@RequestBody Route route) throws Exception {
+        Object obj = null;
+        obj = nodeService.createRoute(route);
+        return obj;
     }
 
     @RequestMapping(value = "/route", method = RequestMethod.PUT)
-    public Route modRoute(@RequestBody Route route) {
-        return nodeService.modRoute(route);
+    public Object modRoute(@RequestBody Route route) throws Exception {
+        Object object = null;
+        object = nodeService.modRoute(route);
+        return object;
     }
 
     @RequestMapping(value = "/route", method = RequestMethod.DELETE)
-    public void deleteRoute(@RequestParam("id") int id) {
-        nodeService.deleteRoute(id);
+    public Object deleteRoute(@RequestParam("id") int id) throws Exception {
+        Object object = null;
+        object = nodeService.deleteRoute(id);
+        return object;
     }
 }

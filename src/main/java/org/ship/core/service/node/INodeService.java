@@ -24,17 +24,17 @@ public interface INodeService {
 
     Pagination<Route> getRoutes(int nodeId, int page, int limit) throws SQLException;
     Route getRoute(int id);
-    Route createRoute(Route route);
-    Route modRoute(Route route);
-    void deleteRoute(int id);
+    Map<String, String> createRoute(Route route) throws Exception;
+    Map<String, String> modRoute(Route route) throws Exception;
+    Map<String, String> deleteRoute(int id) throws Exception;
 
     Dns getDns(int nodeId);
-    Dns modDns(int nodeId, String dns);
+    Map<String, String> modDns(int nodeId, String dns) throws Exception;
 
     Pagination<ConnRule> getConnRules(int page, int limit) throws SQLException;
     ConnRule getConnRule(int id);
-    ConnRule createConnRule(ConnRule rule);
-    ConnRule modConnRule(ConnRule rule);
-    void deleteConnRule(int id);
-    void modConnStatus(boolean status, int id);
+    Map<String, String> createConnRule(ConnRule rule) throws Exception;
+    Map<String, String> modConnRule(ConnRule rule) throws Exception;
+    Map<String, String> deleteConnRule(int id) throws Exception;
+    Map<String, String> modConnStatus(boolean status, int id) throws Exception;
  }

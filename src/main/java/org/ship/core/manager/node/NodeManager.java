@@ -182,20 +182,69 @@ public class NodeManager implements INodeService {
     }
 
     @Override
-    public Route createRoute(Route route) {
-        routeDao.createRoute(route);
-        return route;
+    public Map<String, String> createRoute(Route route) throws Exception {
+        Map<String, String> map = new HashMap<>();
+        try {
+            Iface iface = ifaceDao.getIface(route.getIface_id());
+            if (iface == null) {
+                map.put("flag", "1");
+                map.put("msg", "未找到该网卡");
+                return map;
+            }
+            Route existRoute = routeDao.findExistRoute(route.getNode_id(), route.getGateway());
+            if (existRoute != null) {
+                map.put("flag", "2");
+                map.put("msg", "路由已存在");
+                return map;
+            }
+            routeDao.createRoute(route);
+            map.put("flag", "0");
+            map.put("msg", "添加成功");
+        } catch (Exception e) {
+            log.error("create route error: {}", ExceptionUtils.getStackTrace(e));
+            throw new Exception("添加异常");
+        }
+        return map;
     }
 
     @Override
-    public Route modRoute(Route route) {
-        routeDao.modRoute(route.getGateway(), route.getId());
-        return route;
+    public Map<String, String> modRoute(Route route) throws Exception {
+        Map<String, String> map = new HashMap<>();
+        try {
+            Route old_route = routeDao.getRoute(route.getId());
+            if (old_route == null) {
+                map.put("flag", "1");
+                map.put("msg", "未找到该路由");
+                return map;
+            }
+            routeDao.modRoute(route.getGateway(), route.getId());
+            map.put("flag", "0");
+            map.put("msg", "添加成功");
+        } catch (Exception e) {
+            log.error("modify route error: {}", ExceptionUtils.getStackTrace(e));
+            throw new Exception("修改异常");
+        }
+        return map;
     }
 
     @Override
-    public void deleteRoute(int id) {
-        routeDao.deleteRoute(id);
+    public Map<String, String> deleteRoute(int id) throws Exception {
+        Map<String, String> map = new HashMap<>();
+        try {
+            Route old_route = routeDao.getRoute(id);
+            if (old_route == null) {
+                map.put("flag", "1");
+                map.put("msg", "未找到该路由");
+                return map;
+            }
+            routeDao.deleteRoute(id);
+            map.put("flag", "0");
+            map.put("msg", "删除成功");
+        } catch (Exception e) {
+            log.error("del route error: {}", ExceptionUtils.getStackTrace(e));
+            throw new Exception("删除异常");
+        }
+        return map;
     }
 
     @Override
@@ -204,11 +253,18 @@ public class NodeManager implements INodeService {
     }
 
     @Override
-    public Dns modDns(int nodeId, String dns) {
-        dnsDao.modDns(nodeId, dns);
-        Dns newDns = new Dns();
-        newDns.setDns(dns);
-        return newDns;
+    public Map<String, String> modDns(int nodeId, String dns) throws Exception {
+        Map<String, String> map = new HashMap<>();
+        try {
+            Utils.verifyIp(dns);
+            dnsDao.modDns(nodeId, dns);
+            map.put("flag", "0");
+            map.put("msg", "修改成功");
+        } catch (Exception e) {
+            log.error("modidy dns error: {}", ExceptionUtils.getStackTrace(e));
+            throw new Exception("修改异常");
+        }
+        return map;
     }
 
     @Override
@@ -230,28 +286,99 @@ public class NodeManager implements INodeService {
     }
 
     @Override
-    public ConnRule createConnRule(ConnRule rule) {
-        connRuleDao.addConnRule(rule);
-        return rule;
+    public Map<String, String> createConnRule(ConnRule rule) throws Exception {
+        Map<String, String> map = new HashMap<>();
+        try {
+            Collection<Integer> connRuleIds = connRuleDao.getIdByTcp(rule.getListen_port(), rule.getListen_addr().getId());
+            if (connRuleIds.size() > 0) {
+                map.put("flag", "1");
+                map.put("msg", "端口被占用");
+                return map;
+            }
+            connRuleDao.addConnRule(rule);
+            map.put("flag", "0");
+            map.put("msg", "添加成功");
+        } catch (Exception e) {
+            log.error("create connRule error: {}", ExceptionUtils.getStackTrace(e));
+            throw new Exception("添加异常");
+        }
+        return map;
     }
 
     @Override
-    public ConnRule modConnRule(ConnRule rule) {
-        connRuleDao.modConnRule(rule);
-        return rule;
+    public Map<String, String> modConnRule(ConnRule rule) throws Exception {
+        Map<String, String> map = new HashMap<>();
+        try {
+            ConnRule old_connRule = connRuleDao.getConnRule(rule.getId());
+            if (old_connRule == null) {
+                map.put("flag", "1");
+                map.put("msg", "规则不存在");
+                return map;
+            }
+            if (old_connRule.isStatus()) {
+                map.put("flag", "2");
+                map.put("msg", "规则正在启用不能修改");
+                return map;
+            }
+            Collection<Integer> connRuleIds = connRuleDao.getIdByTcp(rule.getListen_port(), rule.getListen_addr().getId());
+            if (connRuleIds.size() > 0) {
+                map.put("flag", "3");
+                map.put("msg", "端口被占用");
+                return map;
+            }
+            connRuleDao.modConnRule(rule);
+            map.put("flag", "0");
+            map.put("msg", "修改成功");
+        } catch (Exception e) {
+            log.error("modify connRule error: {}", ExceptionUtils.getStackTrace(e));
+            throw new Exception("修改异常");
+        }
+        return map;
     }
 
     @Override
-    public void deleteConnRule(int id) {
-        connRuleDao.delConnRule(id);
+    public Map<String, String> deleteConnRule(int id) throws Exception {
+        Map<String, String> map = new HashMap<>();
+        try {
+            ConnRule connRule = connRuleDao.getConnRule(id);
+            if (connRule == null) {
+                map.put("flag", "1");
+                map.put("msg", "规则不存在");
+                return map;
+            }
+            if (connRule.isStatus()) {
+                map.put("flag", "2");
+                map.put("msg", "规则正在启用不能删除");
+                return map;
+            }
+            connRuleDao.delConnRule(id);
+            map.put("flag", "0");
+            map.put("msg", "删除成功");
+        } catch (Exception e) {
+            log.error("del connRule error: {}", ExceptionUtils.getStackTrace(e));
+            throw new Exception("删除异常");
+        }
+        return map;
     }
 
     @Override
-    public void modConnStatus( boolean status, int id) {
-        ConnRule connRule = connRuleDao.getConnRule(id);
-        if (connRule.isStatus() == status) return;
-        connRule.setStatus(status);
-        connRuleDao.modConnRule(connRule);
+    public Map<String, String> modConnStatus( boolean status, int id) throws Exception {
+        Map<String, String> map = new HashMap<>();
+        try {
+            ConnRule connRule = connRuleDao.getConnRule(id);
+            if (connRule.isStatus() == status) {
+                map.put("flag", "1");
+                map.put("msg", "规则正在启用中");
+                return map;
+            }
+            connRule.setStatus(status);
+            connRuleDao.modConnRule(connRule);
+            map.put("flag", "0");
+            map.put("msg", "提交成功");
+        } catch (Exception e) {
+            log.error("mod conn status error: {}", ExceptionUtils.getStackTrace(e));
+        }
+        return map;
     }
 
     private void verifyIpAddress(IpAddress ipAddress) throws Exception {

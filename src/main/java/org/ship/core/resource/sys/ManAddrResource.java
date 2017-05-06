@@ -23,7 +23,7 @@ public class ManAddrResource {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public ManAddr modManAddr(@RequestBody ManAddr manAddr) {
+    public ManAddr modManAddr(@RequestBody ManAddr manAddr) throws Exception {
         return sysService.modManAddr(manAddr);
     }
 }

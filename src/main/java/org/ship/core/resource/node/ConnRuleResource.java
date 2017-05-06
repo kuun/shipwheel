@@ -32,22 +32,30 @@ public class ConnRuleResource {
     }
 
     @RequestMapping(value = "/connRule", method = RequestMethod.POST)
-    public ConnRule createConnRule(@RequestBody ConnRule rule) {
-        return nodeService.createConnRule(rule);
+    public Object createConnRule(@RequestBody ConnRule rule) throws Exception {
+        Object object;
+        object = nodeService.createConnRule(rule);
+        return object;
     }
 
     @RequestMapping(value = "/connRule", method = RequestMethod.PUT)
-    public ConnRule modConnRule(@RequestBody ConnRule rule) {
-        return nodeService.modConnRule(rule);
+    public Object modConnRule(@RequestBody ConnRule rule) throws Exception {
+        Object object = null;
+        object = nodeService.modConnRule(rule);
+        return object;
     }
 
     @RequestMapping(value = "/connRule", method = RequestMethod.DELETE)
-    public void deleteConnRule(@RequestParam("id") int id) {
-        nodeService.deleteConnRule(id);
+    public Object deleteConnRule(@RequestParam("id") int id) throws Exception {
+        Object object = null;
+        object = nodeService.deleteConnRule(id);
+        return object;
     }
 
     @RequestMapping(value = "/connRule/{id}/status", method = RequestMethod.PUT)
-    public void modConnStatus(@PathVariable("id") int id, @RequestParam("status") boolean status) {
-        nodeService.modConnStatus(status, id);
+    public Object modConnStatus(@PathVariable("id") int id, @RequestParam("status") boolean status) throws Exception {
+        Object object = null;
+        object = nodeService.modConnStatus(status, id);
+        return object;
     }
 }

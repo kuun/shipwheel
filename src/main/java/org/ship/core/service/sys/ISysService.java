@@ -7,5 +7,5 @@ import org.ship.core.vo.sys.ManAddr;
  */
 public interface ISysService {
     ManAddr getManAddr();
-    ManAddr modManAddr(ManAddr manAddr);
+    ManAddr modManAddr(ManAddr manAddr) throws Exception;
 }

@@ -2,6 +2,7 @@ package org.ship.core.dao.node;
 
 import org.apache.ibatis.annotations.*;
 import org.ship.core.vo.node.Route;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Collection;
 
@@ -22,6 +23,10 @@ public interface RouteDao {
 
     @Select("SELECT * FROM ship_iface_route WHERE id = #{id}")
     Route getRoute(@Param("id") int id);
+
+    @Select("SELECT * FROM ship_iface_route WHERE node_id = #{nodeId} AND gateway = #{gateway}")
+    Route findExistRoute(@Param("nodeId") int nodeId,
+                         @Param("gateway") String gateway);
 
     @Insert("INSERT INTO ship_iface_route (subnet, mask, iface_id, node_id, gateway) " +
             "VALUES (#{subnet}, #{mask}, #{iface_id}, #{node_id}, #{gateway})")
