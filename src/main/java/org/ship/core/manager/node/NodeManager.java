@@ -28,6 +28,7 @@ public class NodeManager implements INodeService {
     private static final Logger log = LoggerFactory.getLogger(NodeManager.class);
     private ReentrantLock lock = new ReentrantLock();
     private static Map<Integer, Node> nodes = new HashMap<>();
+    private NodeClient client = null;
     private static final int RPC_PORT = 6001;
 
     @Autowired
@@ -83,7 +84,6 @@ public class NodeManager implements INodeService {
     @Override
     public Map<String, String> createIpAddr(IpAddress ipAddress) throws Exception {
         Map<String, String> map = new HashMap<>();
-        NodeClient client = null;
         try {
             Iface iface = ifaceDao.getIface(ipAddress.getIface_id());
             if (iface == null) {
@@ -99,7 +99,7 @@ public class NodeManager implements INodeService {
             }
             verifyIpAddress(ipAddress);
             Node node = getNode(ipAddress.getNode_id());
-            client = new NodeClient(node.getIp(), RPC_PORT);
+            initClient(node);
             Rpc.OpResult result = client.addAddr(ipAddress);
             if (result.getCodeValue() != 0) {
                 log.error("create ip addr error: {}", ipAddress);
@@ -142,12 +142,21 @@ public class NodeManager implements INodeService {
                 }
             }
             verifyIpAddress(ipAddress);
+            Node node = getNode(ipAddress.getNode_id());
+            initClient(node);
+            Rpc.OpResult result = client.modAddr(old_ipAddr, ipAddress);
+            if (result.getCodeValue() != 0) {
+                log.error("old_addr: {}, new_addr: {}", old_ipAddr, ipAddress);
+                throw new Exception("send mod msg to server error");
+            }
             ipAddrDao.modIpAddr(ipAddress);
             map.put("flag", "0");
             map.put("msg", "添加成功");
         } catch (Exception e) {
             log.error("mod ipAddress error: {}", ExceptionUtils.getStackTrace(e));
             throw new Exception("修改异常");
+        } finally {
+            if (client != null) client.shutdown();
         }
         return map;
     }
@@ -163,9 +172,16 @@ public class NodeManager implements INodeService {
                 map.put("msg", "未找到该IP");
                 return map;
             }
-            Collection<IpAddress> ips = ipAddrDao.getIpAddrByIfaceId(ipAddress.getIface_id());
+            /*Collection<IpAddress> ips = ipAddrDao.getIpAddrByIfaceId(ipAddress.getIface_id());
             if (ips.isEmpty()) {
                 routeDao.delRouteOnIface(ipAddress.getIface_id());
+            }*/
+            Node node = getNode(ipAddress.getNode_id());
+            initClient(node);
+            Rpc.OpResult result = client.delAddr(ipAddress);
+            if (result.getCodeValue() != 0) {
+                log.error("del addr error: {}", ipAddress);
+                throw new Exception("send del addr msg to server error");
             }
             ipAddrDao.deleteIpAddr(id);
             map.put("flag", "0");
@@ -174,6 +190,7 @@ public class NodeManager implements INodeService {
             log.error("del ipAddr error: {}", ExceptionUtils.getStackTrace(e));
             throw new Exception("删除异常");
         } finally {
+            if (client != null) client.shutdown();
             lock.unlock();
         }
         return map;
@@ -452,5 +469,9 @@ public class NodeManager implements INodeService {
     private Node getNode(int id) {
         loadNodes();
         return nodes.get(id);
+    }
+
+    private void initClient(Node node) {
+        client = new NodeClient(node.getIp(), RPC_PORT);
     }
 }

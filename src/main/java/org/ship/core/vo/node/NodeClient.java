@@ -66,4 +66,35 @@ public class NodeClient {
         return blockingStub.addAddr(pbAddr);
     }
 
+    public Rpc.OpResult modAddr(IpAddress oldAddr, IpAddress newAddr) {
+        int old_mask = Utils.shiftMask(oldAddr.getMask());
+        int new_mask = Utils.shiftMask(newAddr.getMask());
+        Rpc.PbAddr odl_addr = Rpc.PbAddr.newBuilder()
+                .setIface(oldAddr.getIfaceName())
+                .setIp(oldAddr.getIp())
+                .setMask(old_mask)
+                .build();
+        Rpc.PbAddr new_addr = Rpc.PbAddr.newBuilder()
+                .setIface(newAddr.getIfaceName())
+                .setIp(newAddr.getIp())
+                .setMask(new_mask)
+                .build();
+        Rpc.PbAddrMod  pbAddrMod = Rpc.PbAddrMod.newBuilder()
+                .setOld(odl_addr)
+                .setNew(new_addr)
+                .build();
+        return blockingStub.modAddr(pbAddrMod);
+    }
+
+    public Rpc.OpResult delAddr(IpAddress ipAddress) {
+        int mask = Utils.shiftMask(ipAddress.getMask());
+        Rpc.PbAddr pbAddr = Rpc.PbAddr.newBuilder()
+                .setIface(ipAddress.getIfaceName())
+                .setIp(ipAddress.getIp())
+                .setMask(mask)
+                .build();
+        return blockingStub.delAddr(pbAddr);
+    }
+
+
 }
