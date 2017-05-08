@@ -1,0 +1,3 @@
+[submodule "src/main/proto/dataship-rpc"]
+	path = src/main/proto/dataship-rpc
+	url = https://github.com/kuun/dataship-rpc.git
