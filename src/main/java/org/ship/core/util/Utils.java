@@ -1,7 +1,5 @@
 package org.ship.core.util;
 
-import com.oracle.jrockit.jfr.InvalidValueException;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
