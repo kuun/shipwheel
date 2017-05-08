@@ -229,12 +229,21 @@ public class NodeManager implements INodeService {
                 map.put("msg", "路由已存在");
                 return map;
             }
+            Node node = getNode(route.getNode_id());
+            initClient(node);
+            Rpc.OpResult result = client.addRoute(route);
+            if (result.getCodeValue() != 0) {
+                log.error("add route error: {}", route);
+                throw new Exception("send add route msg to server error");
+            }
             routeDao.createRoute(route);
             map.put("flag", "0");
             map.put("msg", "添加成功");
         } catch (Exception e) {
             log.error("create route error: {}", ExceptionUtils.getStackTrace(e));
             throw new Exception("添加异常");
+        } finally {
+            if (client != null) client.shutdown();
         }
         return map;
     }
@@ -249,12 +258,21 @@ public class NodeManager implements INodeService {
                 map.put("msg", "未找到该路由");
                 return map;
             }
+            Node node = getNode(route.getNode_id());
+            initClient(node);
+            Rpc.OpResult result = client.modRoute(old_route, route);
+            if (result.getCodeValue() != 0) {
+                log.error("mod route error: {}", route);
+                throw new Exception("send mod route ,msg to server error");
+            }
             routeDao.modRoute(route.getGateway(), route.getId());
             map.put("flag", "0");
             map.put("msg", "添加成功");
         } catch (Exception e) {
             log.error("modify route error: {}", ExceptionUtils.getStackTrace(e));
             throw new Exception("修改异常");
+        } finally {
+            if (client != null) client.shutdown();
         }
         return map;
     }
@@ -269,12 +287,21 @@ public class NodeManager implements INodeService {
                 map.put("msg", "未找到该路由");
                 return map;
             }
+            Node node = getNode(old_route.getNode_id());
+            initClient(node);
+            Rpc.OpResult result = client.delRoute(old_route);
+            if (result.getCodeValue() != 0) {
+                log.error("del route error: {}", old_route);
+                throw new Exception("send del route msg to server error");
+            }
             routeDao.deleteRoute(id);
             map.put("flag", "0");
             map.put("msg", "删除成功");
         } catch (Exception e) {
             log.error("del route error: {}", ExceptionUtils.getStackTrace(e));
             throw new Exception("删除异常");
+        } finally {
+            if (client != null) client.shutdown();
         }
         return map;
     }

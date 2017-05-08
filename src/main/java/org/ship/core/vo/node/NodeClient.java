@@ -2,7 +2,6 @@ package org.ship.core.vo.node;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.dataship.rpc.DatashipGrpc;
 import org.dataship.rpc.Rpc;
 import org.ship.core.util.Utils;
@@ -20,10 +19,19 @@ public class NodeClient {
     private final ManagedChannel channel;
     private DatashipGrpc.DatashipBlockingStub blockingStub;
 
+    /**
+     * Construct client connecting to HelloWorld server at {@code host:port}.
+     * */
     public NodeClient(String host, int port) {
-        this(ManagedChannelBuilder.forAddress(host, port).usePlaintext(true));
+        this(ManagedChannelBuilder.forAddress(host, port)
+                // Channels are secure by default (via SSL/TLS). For the example we disable TLS to avoid
+                // needing certificates.
+                .usePlaintext(true));
     }
 
+    /**
+     * Construct client for accessing RouteGuide server using the existing channel.
+     */
     NodeClient(ManagedChannelBuilder<?> channelBuilder) {
         channel = channelBuilder.build();
         blockingStub = DatashipGrpc.newBlockingStub(channel);
@@ -96,5 +104,47 @@ public class NodeClient {
         return blockingStub.delAddr(pbAddr);
     }
 
+    public Rpc.OpResult addRoute(Route route) {
+        int dst_mask = Utils.shiftMask(route.getDst_mask());
+        Rpc.PbRoute pbRoute = Rpc.PbRoute.newBuilder()
+                .setDstNet(route.getDst_net())
+                .setDstMask(dst_mask)
+                .setIface(route.getIfaceName())
+                .setGateway(route.getGateway())
+                .build();
+        return blockingStub.addRoute(pbRoute);
+    }
 
+    public Rpc.OpResult modRoute(Route oldRoute, Route newRoute) {
+        int old_dst_mask = Utils.shiftMask(oldRoute.getDst_mask());
+        int new_dst_mask = Utils.shiftMask(newRoute.getDst_mask());
+        Rpc.PbRoute old_pb_route = Rpc.PbRoute.newBuilder()
+                .setDstNet(oldRoute.getDst_net())
+                .setDstMask(old_dst_mask)
+                .setIface(oldRoute.getIfaceName())
+                .setGateway(oldRoute.getGateway())
+                .build();
+        Rpc.PbRoute new_pb_route = Rpc.PbRoute.newBuilder()
+                .setDstNet(newRoute.getDst_net())
+                .setDstMask(new_dst_mask)
+                .setIface(newRoute.getIfaceName())
+                .setGateway(newRoute.getGateway())
+                .build();
+        Rpc.PbRouteMod pbRouteMod = Rpc.PbRouteMod.newBuilder()
+                .setOld(old_pb_route)
+                .setNew(new_pb_route)
+                .build();
+        return blockingStub.modRoute(pbRouteMod);
+    }
+
+    public Rpc.OpResult delRoute(Route route) {
+        int dst_mask = Utils.shiftMask(route.getDst_mask());
+        Rpc.PbRoute pbRoute = Rpc.PbRoute.newBuilder()
+                .setDstNet(route.getDst_net())
+                .setDstMask(dst_mask)
+                .setIface(route.getIfaceName())
+                .setGateway(route.getGateway())
+                .build();
+        return blockingStub.delRoute(pbRoute);
+    }
 }

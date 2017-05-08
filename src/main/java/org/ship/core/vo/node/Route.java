@@ -5,8 +5,8 @@ package org.ship.core.vo.node;
  */
 public class Route {
     private int id;
-    private String subnet;
-    private String mask;
+    private String dst_net;
+    private String dst_mask;
     private int iface_id;
     private int node_id;
     private String gateway;
@@ -20,20 +20,20 @@ public class Route {
         this.id = id;
     }
 
-    public String getSubnet() {
-        return subnet;
+    public String getDst_net() {
+        return dst_net;
     }
 
-    public void setSubnet(String subnet) {
-        this.subnet = subnet;
+    public void setDst_net(String dst_net) {
+        this.dst_net = dst_net;
     }
 
-    public String getMask() {
-        return mask;
+    public String getDst_mask() {
+        return dst_mask;
     }
 
-    public void setMask(String mask) {
-        this.mask = mask;
+    public void setDst_mask(String dst_mask) {
+        this.dst_mask = dst_mask;
     }
 
     public int getIface_id() {
@@ -72,8 +72,8 @@ public class Route {
     public String toString() {
         return "Route{" +
                 "id=" + id +
-                ", subnet='" + subnet + '\'' +
-                ", mask='" + mask + '\'' +
+                ", dst_net='" + dst_net + '\'' +
+                ", dst_mask='" + dst_mask + '\'' +
                 ", iface_id=" + iface_id +
                 ", node_id=" + node_id +
                 ", gateway='" + gateway + '\'' +

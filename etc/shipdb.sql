@@ -45,8 +45,8 @@ CREATE TABLE `ship_iface_addr` (
 
 CREATE TABLE `ship_iface_route` (
   `id`      INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `subnet`  VARCHAR(20) NOT NULL,
-  `mask`    VARCHAR(20) NOT NULL,
+  `dst_net`  VARCHAR(20) NOT NULL,
+  `dst_mask`    VARCHAR(20) NOT NULL,
   `iface_id`  INT         NOT NULL,
   `node_id` INT         NOT NULL,
   `gateway` VARCHAR(20),
