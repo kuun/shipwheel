@@ -13,6 +13,7 @@ buildscript {
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
+apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'application'
 apply plugin: 'com.google.protobuf'
@@ -22,6 +23,7 @@ sourceCompatibility = 1.8
 
 repositories {
 	mavenCentral()
+	flatDir dirs: 'lib'
 }
 
 protobuf {
@@ -59,3 +61,12 @@ dependencies {
 }
 
 mainClassName = 'org.ship.core.app.Application'
+
+idea {
+	module {
+		// Not using generatedSourceDirs because of
+		// https://discuss.gradle.org/t/support-for-intellij-2016/15294/8
+		sourceDirs += file("${projectDir}/build/generated/source/proto/main/java");
+		sourceDirs += file("${projectDir}/build/generated/source/proto/main/grpc");
+	}
+}
