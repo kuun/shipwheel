@@ -187,4 +187,38 @@ public class Utils {
         process.waitFor();
         return new ExecReturn(process.exitValue(), stdoutBuilder.toString(), stderrBuilder.toString());
     }
+
+    public static int shiftMask(String mask) {
+        StringBuffer sb;
+        String str;
+        int inetmask = 0;
+        int count = 0;
+
+        String[] ipSegment = mask.split("\\.");
+        for (int n = 0; n < ipSegment.length; n++) {
+            sb = toBin(Integer.parseInt(ipSegment[n]));
+            str = sb.reverse().toString();
+            count = 0;
+            for (int i = 0; i < str.length(); i++) {
+                i = str.indexOf("1", i);
+                if (i == -1) {
+                    break;
+                }
+                count++;
+            }
+            inetmask += count;
+        }
+        return inetmask;
+    }
+
+    public static StringBuffer toBin(int x) {
+        StringBuffer result=new StringBuffer();
+        result.append(x%2);
+        x/=2;
+        while(x>0){
+            result.append(x%2);
+            x/=2;
+        }
+        return result;
+    }
 }
