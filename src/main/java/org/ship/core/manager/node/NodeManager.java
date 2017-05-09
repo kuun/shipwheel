@@ -463,6 +463,7 @@ public class NodeManager implements INodeService {
             map.put("msg", "提交成功");
         } catch (Exception e) {
             log.error("mod conn status error: {}", ExceptionUtils.getStackTrace(e));
+            throw new Exception("修改状态异常");
         } finally {
             if (client != null) client.shutdown();
         }
