@@ -146,7 +146,7 @@
                 let self = this;
                 self.nodeId = tab.name;
                 self.loadIpAddr(self.nodeId, 1);
-                self.loadifaces(self.nodeId);
+                self.loadIfaces(self.nodeId);
             },
             //获取选择
             handleSelectionChange: function (val) {
