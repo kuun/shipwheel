@@ -12,7 +12,7 @@ module.exports = (options = {}) => ({
     index: './src/main.js'
   },
   output: {
-    path: resolve(__dirname, '../static'),
+    path: resolve(__dirname, '../resources/static'),
     filename: options.dev ? '[name].js' : '[name].js?[chunkhash]',
     chunkFilename: '[id].js?[chunkhash]',
     publicPath: options.dev ? '/assets/' : publicPath
