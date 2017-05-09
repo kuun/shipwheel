@@ -10,7 +10,7 @@ import java.util.Collection;
  * Created by wx on 2017/4/30.
  */
 public interface RouteDao {
-    String SQL = "SELECT ifaceRoute.id, ifaceRoute.subnet, ifaceRoute.mask, ifaceRoute.iface_id, ifaceRoute.node_id, ifaceRoute.gateway, iface.name AS ifaceName " +
+    String SQL = "SELECT ifaceRoute.id, ifaceRoute.dst_net, ifaceRoute.dst_mask, ifaceRoute.iface_id, ifaceRoute.node_id, ifaceRoute.gateway, iface.name AS ifaceName " +
             "FROM ship_iface_route AS ifaceRoute INNER JOIN ship_node_iface AS iface ON ifaceRoute.iface_id = iface.id ";
 
     @Select("SELECT COUNT(*) FROM ship_iface_route WHERE node_id = #{nodeId}")
@@ -28,8 +28,8 @@ public interface RouteDao {
     Route findExistRoute(@Param("nodeId") int nodeId,
                          @Param("gateway") String gateway);
 
-    @Insert("INSERT INTO ship_iface_route (subnet, mask, iface_id, node_id, gateway) " +
-            "VALUES (#{subnet}, #{mask}, #{iface_id}, #{node_id}, #{gateway})")
+    @Insert("INSERT INTO ship_iface_route (dst_net, dst_mask, iface_id, node_id, gateway) " +
+            "VALUES (#{dst_net}, #{dst_mask}, #{iface_id}, #{node_id}, #{gateway})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void createRoute(Route route);
 
