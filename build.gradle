@@ -60,7 +60,7 @@ dependencies {
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
-mainClassName = 'org.ship.core.app.Application'
+mainClassName = 'org.ship.core.Application'
 
 idea {
 	module {
