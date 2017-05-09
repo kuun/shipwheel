@@ -17,7 +17,7 @@ public class NodeClient {
     private static final Logger log = LoggerFactory.getLogger(NodeClient.class);
 
     private final ManagedChannel channel;
-    private DatashipGrpc.DatashipBlockingStub blockingStub;
+    private final DatashipGrpc.DatashipBlockingStub blockingStub;
 
     /**
      * Construct client connecting to HelloWorld server at {@code host:port}.
@@ -66,6 +66,7 @@ public class NodeClient {
     }
 
     public Rpc.OpResult addAddr(IpAddress ipAddress) {
+        log.debug("ipaddr:{}", ipAddress);
         int mask = Utils.shiftMask(ipAddress.getMask());
         Rpc.PbAddr pbAddr = Rpc.PbAddr.newBuilder().setIface(ipAddress.getIfaceName())
                 .setIp(ipAddress.getIp())

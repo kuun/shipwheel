@@ -29,7 +29,7 @@ public class NodeManager implements INodeService {
     private ReentrantLock lock = new ReentrantLock();
     private static Map<Integer, Node> nodes = new HashMap<>();
     private NodeClient client = null;
-    private static final int RPC_PORT = 6001;
+    private static final int RPC_PORT = 6071;
 
     @Autowired
     private IfaceDao ifaceDao;
@@ -100,6 +100,7 @@ public class NodeManager implements INodeService {
             verifyIpAddress(ipAddress);
             Node node = getNode(ipAddress.getNode_id());
             initClient(node);
+            ipAddress.setIfaceName(iface.getName());
             Rpc.OpResult result = client.addAddr(ipAddress);
             if (result.getCodeValue() != 0) {
                 log.error("create ip addr error: {}", ipAddress);
@@ -144,6 +145,9 @@ public class NodeManager implements INodeService {
             verifyIpAddress(ipAddress);
             Node node = getNode(ipAddress.getNode_id());
             initClient(node);
+            Iface iface = ifaceDao.getIface(ipAddress.getIface_id());
+            old_ipAddr.setIfaceName(iface.getName());
+            ipAddress.setIfaceName(iface.getName());
             Rpc.OpResult result = client.modAddr(old_ipAddr, ipAddress);
             if (result.getCodeValue() != 0) {
                 log.error("old_addr: {}, new_addr: {}", old_ipAddr, ipAddress);
@@ -178,6 +182,8 @@ public class NodeManager implements INodeService {
             }*/
             Node node = getNode(ipAddress.getNode_id());
             initClient(node);
+            Iface iface = ifaceDao.getIface(ipAddress.getIface_id());
+            ipAddress.setIfaceName(iface.getName());
             Rpc.OpResult result = client.delAddr(ipAddress);
             if (result.getCodeValue() != 0) {
                 log.error("del addr error: {}", ipAddress);
@@ -231,6 +237,7 @@ public class NodeManager implements INodeService {
             }
             Node node = getNode(route.getNode_id());
             initClient(node);
+            route.setIfaceName(iface.getName());
             Rpc.OpResult result = client.addRoute(route);
             if (result.getCodeValue() != 0) {
                 log.error("add route error: {}", route);
@@ -260,6 +267,9 @@ public class NodeManager implements INodeService {
             }
             Node node = getNode(route.getNode_id());
             initClient(node);
+            Iface iface = ifaceDao.getIface(route.getIface_id());
+            old_route.setIfaceName(iface.getName());
+            route.setIfaceName(iface.getName());
             Rpc.OpResult result = client.modRoute(old_route, route);
             if (result.getCodeValue() != 0) {
                 log.error("mod route error: {}", route);
@@ -289,6 +299,8 @@ public class NodeManager implements INodeService {
             }
             Node node = getNode(old_route.getNode_id());
             initClient(node);
+            Iface iface = ifaceDao.getIface(old_route.getIface_id());
+            old_route.setIfaceName(iface.getName());
             Rpc.OpResult result = client.delRoute(old_route);
             if (result.getCodeValue() != 0) {
                 log.error("del route error: {}", old_route);
@@ -398,7 +410,6 @@ public class NodeManager implements INodeService {
     @Override
     public Map<String, String> deleteConnRule(int id) throws Exception {
         Map<String, String> map = new HashMap<>();
-        NodeClient client = null;
         try {
             ConnRule connRule = connRuleDao.getConnRule(id);
             if (connRule == null) {
@@ -411,21 +422,12 @@ public class NodeManager implements INodeService {
                 map.put("msg", "规则正在启用不能删除");
                 return map;
             }
-            Node node = getNode(connRule.getDirect());
-            client = new NodeClient(node.getIp(), RPC_PORT);
-            Rpc.OpResult result = client.delRule(connRule);
-            if (result.getCodeValue() != 0) {
-                log.error("connRule: {}", connRule);
-                throw new Exception("send del connRule to server error");
-            }
             connRuleDao.delConnRule(id);
             map.put("flag", "0");
             map.put("msg", "删除成功");
         } catch (Exception e) {
             log.error("del connRule error: {}", ExceptionUtils.getStackTrace(e));
             throw new Exception("删除异常");
-        } finally {
-            if (client != null) client.shutdown();
         }
         return map;
     }
@@ -433,7 +435,6 @@ public class NodeManager implements INodeService {
     @Override
     public Map<String, String> modConnStatus( boolean status, int id) throws Exception {
         Map<String, String> map = new HashMap<>();
-        NodeClient client = null;
         try {
             ConnRule connRule = connRuleDao.getConnRule(id);
             if (connRule.isStatus() == status) {
@@ -443,11 +444,19 @@ public class NodeManager implements INodeService {
             }
             connRule.setStatus(status);
             Node node = getNode(connRule.getDirect());
-            client = new NodeClient(node.getIp(), RPC_PORT);
-            Rpc.OpResult result = client.addRule(connRule);
-            if (result.getCodeValue() != 0) {
-                log.error("connRule: {}", connRule);
-                throw new Exception("send connRule status to server error");
+            initClient(node);
+            if (status) {
+                Rpc.OpResult result = client.addRule(connRule);
+                if (result.getCodeValue() != 0) {
+                    log.error("connRule: {}", connRule);
+                    throw new Exception("send connRule status to server error");
+                }
+            } else {
+                Rpc.OpResult result = client.delRule(connRule);
+                if (result.getCodeValue() != 0) {
+                    log.error("connRule: {}", connRule);
+                    throw new Exception("send del connRule to server error");
+                }
             }
             connRuleDao.modConnRule(connRule);
             map.put("flag", "0");
