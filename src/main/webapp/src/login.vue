@@ -91,7 +91,9 @@
                         _this.name = '';
                         _this.password = '';
                     } else {
-                        util.dialog.notifyError(_this, res.data.msg);
+                        util.dialog.notifyError(_this, '登陆失败');
+                        _this.name = '';
+                        _this.password = '';
                     }
                 });
 
