@@ -172,9 +172,11 @@
                     self.swichMsg = '停用成功';
                 }
                 axios.put('/ship/node/connRule/' + row.id + '/status?status=' + row.status).then((res) => {
+                    self.loadConnRules(self.page.curPage);
                     util.dialog.notifySuccess(self, self.swichMsg);
                 }).catch((err) => {
                     util.dialog.notifyError(self, '提交失败');
+                    self.loadConnRules(self.page.curPage);
                 })
             },
             //跳转页
@@ -353,6 +355,6 @@
 <style>
     .ship-coon-btn {
         margin-bottom: 10px;
-        float: right;
+        /*float: right;*/
     }
 </style>
