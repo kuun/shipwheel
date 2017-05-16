@@ -10,6 +10,7 @@ import Route from './vue/Route.vue';
 import Dns from './vue/Dns.vue';
 import ConnRule from './vue/ConnRule.vue';
 import System from './vue/System.vue';
+import AccessControl from './vue/AccessControl.vue'
 
 let routes = [
     {
@@ -50,6 +51,14 @@ let routes = [
         icon: 'fa-exchange',
         children: [
             {path: '/connRule', component: ConnRule, name: '连通规则'}
+        ]
+    }, {
+        path: '/',
+        component: Home,
+        leaf: true,
+        icon: 'fa-filter',
+        children: [
+            {path: '/accessControl', component: AccessControl, name: '访问控制'}
         ]
     }, {
         path: '/',
