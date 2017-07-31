@@ -1,0 +1,11 @@
+[Unit]
+Description=shipwheel a web service
+
+[Service]
+Type=simple
+ExecStart=/opt/ship/bin/shipwheel -cf /opt/ship/etc/application.properties
+Restart=on-abort
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target
