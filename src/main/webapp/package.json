@@ -13,7 +13,7 @@
     "vue-router": "^2.4.0",
     "font-awesome": "^4.7.0",
     "lodash": "^4.15.0",
-    "axios": "^0.16.1",
+    "axios": "^0.19.2",
     "bootstrap": "^3.3.7",
     "crypto-js": "^3.1.8",
     "babel-polyfill": "^7.0.0-alpha.7",
