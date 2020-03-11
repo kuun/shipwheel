@@ -9,11 +9,11 @@
                 <el-tree
                         :data="data"
                         :props="defaultProps"
-                        node-key="id"
+                        engine-key="id"
                         :default-expanded-keys="[1]"
                         accordion
                         highlight-current
-                        @node-click="handleNodeClick">
+                        @engine-click="handleNodeClick">
                 </el-tree>
             </el-col>
             <el-col :lg="10">
@@ -170,19 +170,19 @@
                 //console.log(data)
             },
             handleSelectionChange: function () {
-                
+
             },
             directFormat: function () {
-                
+
             },
             lisAddrFormat: function () {
-                
+
             },
             sendAddrFormat: function () {
-                
+
             },
             handleCurrentChange: function () {
-                
+
             }
         }
     }
