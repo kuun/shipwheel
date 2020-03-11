@@ -1,13 +1,12 @@
-package org.ship.core.resource.node;
+package org.ship.core.resource.engine;
 
-import org.ship.core.service.node.INodeService;
+import org.ship.core.service.engine.IEngineService;
 import org.ship.core.util.Pagination;
-import org.ship.core.vo.node.ConnRule;
+import org.ship.core.vo.engine.ConnRule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
-import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -17,7 +16,7 @@ import java.util.Map;
 @RequestMapping(value = "/ship/node")
 public class ConnRuleResource {
     @Autowired
-    private INodeService nodeService;
+    private IEngineService nodeService;
 
     @RequestMapping(value = "/connRuleList", method = RequestMethod.POST)
     public Pagination<ConnRule> getConnRules(@RequestBody Map<String, String> obj) throws SQLException {

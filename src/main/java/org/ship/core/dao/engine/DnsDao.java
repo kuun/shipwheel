@@ -1,9 +1,9 @@
-package org.ship.core.dao.node;
+package org.ship.core.dao.engine;
 
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-import org.ship.core.vo.node.Dns;
+import org.ship.core.vo.engine.Dns;
 
 /**
  * Created by wx on 2017/5/1.

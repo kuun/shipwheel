@@ -1,9 +1,9 @@
-package org.ship.core.vo.node;
+package org.ship.core.vo.engine;
 
 /**
  * Created by wx on 2017/4/30.
  */
-public class Node {
+public class Engine {
     private int id;
     private String ip;
 
@@ -25,7 +25,7 @@ public class Node {
 
     @Override
     public String toString() {
-        return "Node{" +
+        return "Engine{" +
                 "id=" + id +
                 ", ip='" + ip + '\'' +
                 '}';

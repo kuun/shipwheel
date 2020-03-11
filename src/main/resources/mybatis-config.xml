@@ -5,23 +5,23 @@
 <configuration>
 
     <typeAliases>
-        <typeAlias type="org.ship.core.vo.node.ConnRule" alias="ConnRule"/>
-        <typeAlias type="org.ship.core.vo.node.IpAddress" alias="IpAddress"/>
+        <typeAlias type="org.ship.core.vo.engine.ConnRule" alias="ConnRule"/>
+        <typeAlias type="org.ship.core.vo.engine.IpAddress" alias="IpAddress"/>
     </typeAliases>
 
     <typeHandlers>
         <typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler"
-                     javaType="org.ship.core.vo.node.RuleType"/>
+                     javaType="org.ship.core.vo.engine.RuleType"/>
     </typeHandlers>
 
     <mappers>
         <mapper class="org.ship.core.dao.user.UserDao"/>
-        <mapper class="org.ship.core.dao.node.IfaceDao"/>
-        <mapper class="org.ship.core.dao.node.IpAddrDao"/>
-        <mapper class="org.ship.core.dao.node.RouteDao"/>
-        <mapper class="org.ship.core.dao.node.DnsDao"/>
+        <mapper class="org.ship.core.dao.engine.IfaceDao"/>
+        <mapper class="org.ship.core.dao.engine.IpAddrDao"/>
+        <mapper class="org.ship.core.dao.engine.RouteDao"/>
+        <mapper class="org.ship.core.dao.engine.DnsDao"/>
         <mapper class="org.ship.core.dao.sys.ManAddrDao"/>
-        <mapper class="org.ship.core.dao.node.ConnRuleDao"/>
+        <mapper class="org.ship.core.dao.engine.ConnRuleDao"/>
 
         <mapper resource="mapper/conn-rule.xml"/>
     </mappers>

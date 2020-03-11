@@ -1,4 +1,4 @@
-package org.ship.core.vo.node;
+package org.ship.core.vo.engine;
 
 /**
  * Created by wx on 2017/5/1.

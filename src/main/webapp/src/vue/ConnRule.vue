@@ -156,7 +156,7 @@
         methods: {
             loadConnRules: function (page) {
                 let self = this;
-                axios.post('/ship/node/connRuleList', {page: page, limit: self.page.limit}).then((res) => {
+                axios.post('/ship/engine/connRuleList', {page: page, limit: self.page.limit}).then((res) => {
                     self.page.curPage = res.data.curPage;
                     self.page.total = res.data.total;
                     self.cannRuleList = res.data.data;
@@ -171,7 +171,7 @@
                 } else {
                     self.swichMsg = '停用成功';
                 }
-                axios.put('/ship/node/connRule/' + row.id + '/status?status=' + row.status).then((res) => {
+                axios.put('/ship/engine/connRule/' + row.id + '/status?status=' + row.status).then((res) => {
                     self.loadConnRules(self.page.curPage);
                     util.dialog.notifySuccess(self, self.swichMsg);
                 }).catch((err) => {
@@ -188,13 +188,13 @@
                 self.editTitle = '新增';
                 self.formVisible = true;
                 self.connRule.id = undefined;
-                axios.get('/ship/node/ipAddrList?nodeId=1').then((res) => {
+                axios.get('/ship/engine/ipAddrList?nodeId=1').then((res) => {
                     self.listenAddrs = res.data;
                     if (self.listenAddrs.length > 0) {
                         self.connRule.listen_addr.id = self.listenAddrs[0].id;
                     }
                 });
-                axios.get('/ship/node/ipAddrList?nodeId=2').then((res) => {
+                axios.get('/ship/engine/ipAddrList?nodeId=2').then((res) => {
                     self.seedAddrs = res.data;
                     if (self.seedAddrs.length > 0) {
                         self.connRule.send_addr.id = self.seedAddrs[0].id;
@@ -213,7 +213,7 @@
                     return false;
                 }
                 let id = self.selection[0].id;
-                axios.get('/ship/node/connRule?id=' + id).then((res) => {
+                axios.get('/ship/engine/connRule?id=' + id).then((res) => {
                     self.connRule = res.data;
                 });
                 self.formVisible = true;
@@ -231,7 +231,7 @@
                 let self = this;
                 self.$refs.connRule.validate((valid) => {
                     if (valid) {
-                        axios.post('/ship/node/connRule', self.connRule).then((res) => {
+                        axios.post('/ship/engine/connRule', self.connRule).then((res) => {
                             let data = res.data;
                             if (data.flag === '0') {
                                 util.dialog.notifySuccess(self, data.msg);
@@ -250,7 +250,7 @@
                 let self = this;
                 self.$refs.connRule.validate((valid) => {
                     if (valid) {
-                        axios.put('/ship/node/connRule', self.connRule).then((res) => {
+                        axios.put('/ship/engine/connRule', self.connRule).then((res) => {
                             let data = res.data;
                             if (data.flag === '0') {
                                 util.dialog.notifySuccess(self, data.msg);
@@ -286,7 +286,7 @@
                     type: 'warning'
                 }).then(() => {
                     _.forEach(self.selection, (s) => {
-                        axios.delete('/ship/node/connRule?id=' + s.id).then((res) => {
+                        axios.delete('/ship/engine/connRule?id=' + s.id).then((res) => {
                             let data = res.data;
                             if (data.flag === '0') {
                                 util.dialog.notifySuccess(self, data.msg);
@@ -320,13 +320,13 @@
                     self.listenId = 2;
                     self.sendId = 1;
                 }
-                axios.get('/ship/node/ipAddrList?nodeId=' + self.listenId).then((res) => {
+                axios.get('/ship/engine/ipAddrList?nodeId=' + self.listenId).then((res) => {
                     self.listenAddrs = res.data;
                     if (self.listenAddrs.length > 0) {
                         self.connRule.listen_addr.id = self.listenAddrs[0].id;
                     }
                 });
-                axios.get('/ship/node/ipAddrList?nodeId=' + self.sendId).then((res) => {
+                axios.get('/ship/engine/ipAddrList?nodeId=' + self.sendId).then((res) => {
                     self.seedAddrs = res.data;
                     if (self.seedAddrs.length > 0) {
                         self.connRule.send_addr.id = self.seedAddrs[0].id;

@@ -1,12 +1,12 @@
-package org.ship.core.vo.node;
+package org.ship.core.vo.engine;
 
 /**
  * Created by wx on 2017/4/30.
  */
 public class IpAddress {
     private int id;
-    private int iface_id;
-    private int node_id;
+    private int ifaceId;
+    private int engineId;
     private String ip;
     private String mask;
     private String ifaceName;
@@ -19,20 +19,17 @@ public class IpAddress {
         this.id = id;
     }
 
-    public int getIface_id() {
-        return iface_id;
+    public int getIfaceId() {
+        return ifaceId;
     }
 
-    public void setIface_id(int iface_id) {
-        this.iface_id = iface_id;
+    public int getEngineId() {
+        return engineId;
     }
 
-    public int getNode_id() {
-        return node_id;
-    }
-
-    public void setNode_id(int node_id) {
-        this.node_id = node_id;
+    public IpAddress setEngineId(int engineId) {
+        this.engineId = engineId;
+        return this;
     }
 
     public String getIp() {
@@ -63,8 +60,8 @@ public class IpAddress {
     public String toString() {
         return "IpAddress{" +
                 "id=" + id +
-                ", iface_id=" + iface_id +
-                ", node_id=" + node_id +
+                ", ifaceId=" + ifaceId +
+                ", engineId=" + engineId +
                 ", ip='" + ip + '\'' +
                 ", mask='" + mask + '\'' +
                 ", ifaceName='" + ifaceName + '\'' +

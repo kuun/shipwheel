@@ -1,8 +1,7 @@
-package org.ship.core.dao.node;
+package org.ship.core.dao.engine;
 
 import org.apache.ibatis.annotations.*;
-import org.ship.core.util.Pagination;
-import org.ship.core.vo.node.ConnRule;
+import org.ship.core.vo.engine.ConnRule;
 
 import java.util.Collection;
 

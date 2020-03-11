@@ -1,14 +1,14 @@
-package org.ship.core.manager.node;
+package org.ship.core.manager.engine;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.dataship.rpc.Rpc;
-import org.ship.core.dao.node.*;
-import org.ship.core.service.node.INodeService;
+import org.ship.core.dao.engine.*;
+import org.ship.core.service.engine.IEngineService;
 import org.ship.core.util.PageQuery;
 import org.ship.core.util.Pagination;
 import org.ship.core.util.Subnet;
 import org.ship.core.util.Utils;
-import org.ship.core.vo.node.*;
+import org.ship.core.vo.engine.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +24,11 @@ import java.util.concurrent.locks.ReentrantLock;
  * Created by wx on 2017/4/29.
  */
 @Service
-public class NodeManager implements INodeService {
-    private static final Logger log = LoggerFactory.getLogger(NodeManager.class);
+public class EngineManager implements IEngineService {
+    private static final Logger log = LoggerFactory.getLogger(EngineManager.class);
     private ReentrantLock lock = new ReentrantLock();
-    private static Map<Integer, Node> nodes = new HashMap<>();
-    private NodeClient client = null;
+    private static Map<Integer, Engine> engines = new HashMap<>();
+    private EngineClient client = null;
     private static final int RPC_PORT = 6071;
 
     @Autowired
@@ -47,7 +47,7 @@ public class NodeManager implements INodeService {
     private ConnRuleDao connRuleDao;
 
     @Autowired
-    private NodeDao nodeDao;
+    private EngineDao engineDao;
 
     @Override
     public Collection<Iface> getIfacesByNodeId(int nodeId) {
@@ -85,21 +85,21 @@ public class NodeManager implements INodeService {
     public Map<String, String> createIpAddr(IpAddress ipAddress) throws Exception {
         Map<String, String> map = new HashMap<>();
         try {
-            Iface iface = ifaceDao.getIface(ipAddress.getIface_id());
+            Iface iface = ifaceDao.getIface(ipAddress.getIfaceId());
             if (iface == null) {
                 map.put("flag", "1");
                 map.put("msg", "未找到该网卡");
                 return map;
             }
-            IpAddress existIp = ipAddrDao.getIpAddrByNodeIdAndIp(ipAddress.getNode_id(), ipAddress.getIp());
+            IpAddress existIp = ipAddrDao.getIpAddrByNodeIdAndIp(ipAddress.getEngineId(), ipAddress.getIp());
             if (existIp != null) {
                 map.put("flag", "2");
                 map.put("msg", "IP地址已存在");
                 return map;
             }
             verifyIpAddress(ipAddress);
-            Node node = getNode(ipAddress.getNode_id());
-            initClient(node);
+            Engine engine = getEngine(ipAddress.getEngineId());
+            initClient(engine);
             ipAddress.setIfaceName(iface.getName());
             Rpc.OpResult result = client.addAddr(ipAddress);
             if (result.getCodeValue() != 0) {
@@ -128,7 +128,7 @@ public class NodeManager implements INodeService {
                 map.put("msg", "未找到该IP");
                 return map;
             }
-            IpAddress existIp = ipAddrDao.getIpAddrByNodeIdAndIp(ipAddress.getNode_id(), ipAddress.getIp());
+            IpAddress existIp = ipAddrDao.getIpAddrByNodeIdAndIp(ipAddress.getEngineId(), ipAddress.getIp());
             if (existIp != null) {
                 map.put("flag", "2");
                 map.put("msg", "IP地址已存在");
@@ -143,9 +143,9 @@ public class NodeManager implements INodeService {
                 }
             }
             verifyIpAddress(ipAddress);
-            Node node = getNode(ipAddress.getNode_id());
-            initClient(node);
-            Iface iface = ifaceDao.getIface(ipAddress.getIface_id());
+            Engine engine = getEngine(ipAddress.getEngineId());
+            initClient(engine);
+            Iface iface = ifaceDao.getIface(ipAddress.getIfaceId());
             old_ipAddr.setIfaceName(iface.getName());
             ipAddress.setIfaceName(iface.getName());
             Rpc.OpResult result = client.modAddr(old_ipAddr, ipAddress);
@@ -180,9 +180,9 @@ public class NodeManager implements INodeService {
             if (ips.isEmpty()) {
                 routeDao.delRouteOnIface(ipAddress.getIface_id());
             }*/
-            Node node = getNode(ipAddress.getNode_id());
-            initClient(node);
-            Iface iface = ifaceDao.getIface(ipAddress.getIface_id());
+            Engine engine = getEngine(ipAddress.getEngineId());
+            initClient(engine);
+            Iface iface = ifaceDao.getIface(ipAddress.getIfaceId());
             ipAddress.setIfaceName(iface.getName());
             Rpc.OpResult result = client.delAddr(ipAddress);
             if (result.getCodeValue() != 0) {
@@ -223,20 +223,20 @@ public class NodeManager implements INodeService {
     public Map<String, String> createRoute(Route route) throws Exception {
         Map<String, String> map = new HashMap<>();
         try {
-            Iface iface = ifaceDao.getIface(route.getIface_id());
+            Iface iface = ifaceDao.getIface(route.getIfaceId());
             if (iface == null) {
                 map.put("flag", "1");
                 map.put("msg", "未找到该网卡");
                 return map;
             }
-            Route existRoute = routeDao.findExistRoute(route.getNode_id(), route.getGateway());
+            Route existRoute = routeDao.findExistRoute(route.getEngineId(), route.getGateway());
             if (existRoute != null) {
                 map.put("flag", "2");
                 map.put("msg", "路由已存在");
                 return map;
             }
-            Node node = getNode(route.getNode_id());
-            initClient(node);
+            Engine engine = getEngine(route.getEngineId());
+            initClient(engine);
             route.setIfaceName(iface.getName());
             Rpc.OpResult result = client.addRoute(route);
             if (result.getCodeValue() != 0) {
@@ -265,9 +265,9 @@ public class NodeManager implements INodeService {
                 map.put("msg", "未找到该路由");
                 return map;
             }
-            Node node = getNode(route.getNode_id());
-            initClient(node);
-            Iface iface = ifaceDao.getIface(route.getIface_id());
+            Engine engine = getEngine(route.getEngineId());
+            initClient(engine);
+            Iface iface = ifaceDao.getIface(route.getIfaceId());
             old_route.setIfaceName(iface.getName());
             route.setIfaceName(iface.getName());
             Rpc.OpResult result = client.modRoute(old_route, route);
@@ -297,9 +297,9 @@ public class NodeManager implements INodeService {
                 map.put("msg", "未找到该路由");
                 return map;
             }
-            Node node = getNode(old_route.getNode_id());
-            initClient(node);
-            Iface iface = ifaceDao.getIface(old_route.getIface_id());
+            Engine engine = getEngine(old_route.getEngineId());
+            initClient(engine);
+            Iface iface = ifaceDao.getIface(old_route.getIfaceId());
             old_route.setIfaceName(iface.getName());
             Rpc.OpResult result = client.delRoute(old_route);
             if (result.getCodeValue() != 0) {
@@ -360,7 +360,7 @@ public class NodeManager implements INodeService {
     public Map<String, String> createConnRule(ConnRule rule) throws Exception {
         Map<String, String> map = new HashMap<>();
         try {
-            Collection<Integer> connRuleIds = connRuleDao.getIdByTcp(rule.getListen_port(), rule.getListen_addr().getId());
+            Collection<Integer> connRuleIds = connRuleDao.getIdByTcp(rule.getListenPort(), rule.getListenAddr().getId());
             if (connRuleIds.size() > 0) {
                 map.put("flag", "1");
                 map.put("msg", "端口被占用");
@@ -391,7 +391,7 @@ public class NodeManager implements INodeService {
                 map.put("msg", "规则正在启用不能修改");
                 return map;
             }
-            Collection<Integer> connRuleIds = connRuleDao.getIdByTcp(rule.getListen_port(), rule.getListen_addr().getId());
+            Collection<Integer> connRuleIds = connRuleDao.getIdByTcp(rule.getListenPort(), rule.getListenAddr().getId());
             if (connRuleIds.size() > 0) {
                 map.put("flag", "3");
                 map.put("msg", "端口被占用");
@@ -443,8 +443,8 @@ public class NodeManager implements INodeService {
                 return map;
             }
             connRule.setStatus(status);
-            Node node = getNode(connRule.getDirect());
-            initClient(node);
+            Engine engine = getEngine(connRule.getDirect());
+            initClient(engine);
             if (status) {
                 Rpc.OpResult result = client.addRule(connRule);
                 if (result.getCodeValue() != 0) {
@@ -477,9 +477,9 @@ public class NodeManager implements INodeService {
         if (!subnet.includeIp(ipAddress.getIp())) {
             throw new Exception("invalid ip");
         }
-        Collection<IpAddress> addrs = ipAddrDao.getIpAddrListByNodeId(ipAddress.getNode_id());
+        Collection<IpAddress> addrs = ipAddrDao.getIpAddrListByNodeId(ipAddress.getEngineId());
         long count = addrs.stream()
-                .filter(ipAddr -> ipAddr.getIface_id() != ipAddress.getIface_id())
+                .filter(ipAddr -> ipAddr.getIfaceId() != ipAddress.getIfaceId())
                 .filter(ipAddr -> {
                     try {
                         Subnet testSubnet = new Subnet(ipAddr.getIp(), ipAddr.getMask());
@@ -495,20 +495,20 @@ public class NodeManager implements INodeService {
         }
     }
 
-    private void loadNodes() {
-        Collection<Node> nodeList = nodeDao.getNodes();
-        for (Node node: nodeList) {
-            log.debug("load node: {}", node);
-            nodes.put(node.getId(), node);
+    private void loadEngines() {
+        Collection<Engine> engineList = engineDao.getNodes();
+        for (Engine engine : engineList) {
+            log.debug("load engine: {}", engine);
+            engines.put(engine.getId(), engine);
         }
     }
 
-    private Node getNode(int id) {
-        loadNodes();
-        return nodes.get(id);
+    private Engine getEngine(int id) {
+        loadEngines();
+        return engines.get(id);
     }
 
-    private void initClient(Node node) {
-        client = new NodeClient(node.getIp(), RPC_PORT);
+    private void initClient(Engine engine) {
+        client = new EngineClient(engine.getIp(), RPC_PORT);
     }
 }

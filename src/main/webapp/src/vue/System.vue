@@ -128,7 +128,7 @@
         methods: {
             loadInsideDns: function () {
                 let self = this;
-                axios.get('/ship/node/dns?nodeId=1').then((res) => {
+                axios.get('/ship/engine/dns?nodeId=1').then((res) => {
                     self.inside.insideDns = res.data.dns;
                 }).catch((err) => {
                     util.dialog.notifyError(self, '内端机dns加载失败');
@@ -136,7 +136,7 @@
             },
             loadOutsideDns: function () {
                 let self = this;
-                axios.get('/ship/node/dns?nodeId=2').then((res) => {
+                axios.get('/ship/engine/dns?nodeId=2').then((res) => {
                     self.outside.outsideDns = res.data.dns;
                 }).catch((err) => {
                     util.dialog.notifyError(self, '外端机dns加载失败');
@@ -146,7 +146,7 @@
                 let self = this;
                 self.$refs.inside.validate((valid) => {
                     if (valid) {
-                        axios.put('/ship/node/dns', {node_id: 1, dns: self.inside.insideDns}).then((res) => {
+                        axios.put('/ship/engine/dns', {node_id: 1, dns: self.inside.insideDns}).then((res) => {
                             if (res.data.flag === '0') {
                                 util.dialog.notifySuccess(self, res.data.msg);
                                 self.loadInsideDns();
@@ -165,7 +165,7 @@
                 let self = this;
                 self.$refs.outside.validate((valid) => {
                     if (valid) {
-                        axios.put('/ship/node/dns', {node_id: 2, dns: self.outside.outsideDns}).then((res) => {
+                        axios.put('/ship/engine/dns', {node_id: 2, dns: self.outside.outsideDns}).then((res) => {
                             if (res.data.flag === '0') {
                                 util.dialog.notifySuccess(self, res.data.msg);
                                 self.loadOutsideDns();

@@ -1,15 +1,13 @@
-package org.ship.core.resource.node;
+package org.ship.core.resource.engine;
 
-import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.ship.core.service.node.INodeService;
+import org.ship.core.service.engine.IEngineService;
 import org.ship.core.util.Pagination;
-import org.ship.core.vo.node.IpAddress;
+import org.ship.core.vo.engine.IpAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -19,7 +17,7 @@ import java.util.Map;
 @RequestMapping(value = "/ship/node")
 public class IpAddressResource {
     @Autowired
-    private INodeService nodeService;
+    private IEngineService nodeService;
 
     /**
      * 分页查询

@@ -1,8 +1,8 @@
-package org.ship.core.dao.node;
+package org.ship.core.dao.engine;
 
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import org.ship.core.vo.node.Iface;
+import org.ship.core.vo.engine.Iface;
 
 import java.util.Collection;
 

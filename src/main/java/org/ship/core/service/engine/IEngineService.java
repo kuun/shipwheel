@@ -1,8 +1,7 @@
-package org.ship.core.service.node;
+package org.ship.core.service.engine;
 
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.ship.core.util.Pagination;
-import org.ship.core.vo.node.*;
+import org.ship.core.vo.engine.*;
 
 import java.sql.SQLException;
 import java.util.Collection;
@@ -11,7 +10,7 @@ import java.util.Map;
 /**
  * Created by wx on 2017/4/29.
  */
-public interface INodeService {
+public interface IEngineService {
     Iface getIface(int ifaceId);
     Collection<Iface> getIfacesByNodeId(int nodeId);
 

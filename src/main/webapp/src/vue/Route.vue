@@ -137,7 +137,7 @@
                     page: page,
                     limit: self.page.limit
                 };
-                axios.post('/ship/node/routeList?nodeId=' + nodeId, data).then((res) => {
+                axios.post('/ship/engine/routeList?nodeId=' + nodeId, data).then((res) => {
                     self.page.curPage = res.data.curPage;
                     self.page.total = res.data.total;
                     self.routeList = res.data.data;
@@ -147,7 +147,7 @@
             },
             loadIfaces: function (nodeId) {
                 let self = this;
-                axios.get('/ship/node/iface?nodeId=' + nodeId).then((res) => {
+                axios.get('/ship/engine/iface?nodeId=' + nodeId).then((res) => {
                     self.ifaces = res.data;
                     self.route.iface_id = self.ifaces[0].id;
                 });
@@ -181,7 +181,7 @@
                     util.dialog.notifyError(self, '请选择一条内容修改');
                     return false;
                 }
-                axios.get('/ship/node/route?id=' + self.selection[0].id).then((res) => {
+                axios.get('/ship/engine/route?id=' + self.selection[0].id).then((res) => {
                     self.route = res.data;
                 });
                 self.formVisible = true;
@@ -201,7 +201,7 @@
                 self.$refs.route.validate((valid) => {
                     if (valid) {
                         self.route.node_id = self.nodeId;
-                        axios.post('/ship/node/route', self.route).then((res) => {
+                        axios.post('/ship/engine/route', self.route).then((res) => {
                             let data = res.data;
                             if (data.flag === '0') {
                                 util.dialog.notifySuccess(self, data.msg);
@@ -222,7 +222,7 @@
                 let self = this;
                 self.$refs.route.validate((valid) => {
                     if (valid) {
-                        axios.put('/ship/node/route', self.route).then((res) => {
+                        axios.put('/ship/engine/route', self.route).then((res) => {
                             let data = res.data;
                             if (data.flag === '0') {
                                 util.dialog.notifySuccess(self, '修改成功');
@@ -251,7 +251,7 @@
                     type: 'warning'
                 }).then(() => {
                     _.forEach(self.selection, (s) => {
-                        axios.delete('/ship/node/route?id=' + s.id).then((res) => {
+                        axios.delete('/ship/engine/route?id=' + s.id).then((res) => {
                             let data = res.data;
                             if (data.flag === '0') {
                                 util.dialog.notifySuccess(self, data.msg);

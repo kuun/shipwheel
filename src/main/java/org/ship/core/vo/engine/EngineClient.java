@@ -1,4 +1,4 @@
-package org.ship.core.vo.node;
+package org.ship.core.vo.engine;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -13,8 +13,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by wx on 2017/5/8.
  */
-public class NodeClient {
-    private static final Logger log = LoggerFactory.getLogger(NodeClient.class);
+public class EngineClient {
+    private static final Logger log = LoggerFactory.getLogger(EngineClient.class);
 
     private final ManagedChannel channel;
     private final DatashipGrpc.DatashipBlockingStub blockingStub;
@@ -22,7 +22,7 @@ public class NodeClient {
     /**
      * Construct client connecting to HelloWorld server at {@code host:port}.
      * */
-    public NodeClient(String host, int port) {
+    public EngineClient(String host, int port) {
         this(ManagedChannelBuilder.forAddress(host, port)
                 // Channels are secure by default (via SSL/TLS). For the example we disable TLS to avoid
                 // needing certificates.
@@ -32,7 +32,7 @@ public class NodeClient {
     /**
      * Construct client for accessing RouteGuide server using the existing channel.
      */
-    NodeClient(ManagedChannelBuilder<?> channelBuilder) {
+    EngineClient(ManagedChannelBuilder<?> channelBuilder) {
         channel = channelBuilder.build();
         blockingStub = DatashipGrpc.newBlockingStub(channel);
     }
@@ -43,24 +43,24 @@ public class NodeClient {
 
     public Rpc.OpResult addRule(ConnRule rule) {
         Rpc.PbRule pbRule = Rpc.PbRule.newBuilder().setId(rule.getId())
-                .setType(Rpc.RuleType.forNumber(rule.getRule_type().getValue()))
-                .setListenAddr(rule.getListen_addr().getIp())
-                .setListenPort(rule.getListen_port())
-                .setDstAddr(rule.getDst_addr())
-                .setDstPort(rule.getDst_port())
-                .setSendAddr(rule.getSend_addr().getIp())
+                .setType(Rpc.RuleType.forNumber(rule.getRuleType().getValue()))
+                .setListenAddr(rule.getListenAddr().getIp())
+                .setListenPort(rule.getListenPort())
+                .setDstAddr(rule.getDstAddr())
+                .setDstPort(rule.getDstPort())
+                .setSendAddr(rule.getSendAddr().getIp())
                 .build();
         return blockingStub.addRule(pbRule);
     }
 
     public Rpc.OpResult delRule(ConnRule rule) {
         Rpc.PbRule pbRule = Rpc.PbRule.newBuilder().setId(rule.getId())
-                .setType(Rpc.RuleType.forNumber(rule.getRule_type().getValue()))
-                .setListenAddr(rule.getListen_addr().getIp())
-                .setListenPort(rule.getListen_port())
-                .setDstAddr(rule.getDst_addr())
-                .setDstPort(rule.getDst_port())
-                .setSendAddr(rule.getSend_addr().getIp())
+                .setType(Rpc.RuleType.forNumber(rule.getRuleType().getValue()))
+                .setListenAddr(rule.getListenAddr().getIp())
+                .setListenPort(rule.getListenPort())
+                .setDstAddr(rule.getDstAddr())
+                .setDstPort(rule.getDstPort())
+                .setSendAddr(rule.getSendAddr().getIp())
                 .build();
         return blockingStub.delRule(pbRule);
     }
@@ -106,9 +106,9 @@ public class NodeClient {
     }
 
     public Rpc.OpResult addRoute(Route route) {
-        int dst_mask = Utils.shiftMask(route.getDst_mask());
+        int dst_mask = Utils.shiftMask(route.getDstMask());
         Rpc.PbRoute pbRoute = Rpc.PbRoute.newBuilder()
-                .setDstNet(route.getDst_net())
+                .setDstNet(route.getDstNet())
                 .setDstMask(dst_mask)
                 .setIface(route.getIfaceName())
                 .setGateway(route.getGateway())
@@ -117,16 +117,16 @@ public class NodeClient {
     }
 
     public Rpc.OpResult modRoute(Route oldRoute, Route newRoute) {
-        int old_dst_mask = Utils.shiftMask(oldRoute.getDst_mask());
-        int new_dst_mask = Utils.shiftMask(newRoute.getDst_mask());
+        int old_dst_mask = Utils.shiftMask(oldRoute.getDstMask());
+        int new_dst_mask = Utils.shiftMask(newRoute.getDstMask());
         Rpc.PbRoute old_pb_route = Rpc.PbRoute.newBuilder()
-                .setDstNet(oldRoute.getDst_net())
+                .setDstNet(oldRoute.getDstNet())
                 .setDstMask(old_dst_mask)
                 .setIface(oldRoute.getIfaceName())
                 .setGateway(oldRoute.getGateway())
                 .build();
         Rpc.PbRoute new_pb_route = Rpc.PbRoute.newBuilder()
-                .setDstNet(newRoute.getDst_net())
+                .setDstNet(newRoute.getDstNet())
                 .setDstMask(new_dst_mask)
                 .setIface(newRoute.getIfaceName())
                 .setGateway(newRoute.getGateway())
@@ -139,9 +139,9 @@ public class NodeClient {
     }
 
     public Rpc.OpResult delRoute(Route route) {
-        int dst_mask = Utils.shiftMask(route.getDst_mask());
+        int dst_mask = Utils.shiftMask(route.getDstMask());
         Rpc.PbRoute pbRoute = Rpc.PbRoute.newBuilder()
-                .setDstNet(route.getDst_net())
+                .setDstNet(route.getDstNet())
                 .setDstMask(dst_mask)
                 .setIface(route.getIfaceName())
                 .setGateway(route.getGateway())

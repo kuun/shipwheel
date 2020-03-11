@@ -125,7 +125,7 @@
                     page: page,
                     limit: self.page.limit
                 };
-                axios.post('/ship/node/ipAddrList?nodeId=' + nodeId, data).then((res) => {
+                axios.post('/ship/engine/ipAddrList?nodeId=' + nodeId, data).then((res) => {
                     self.page.curPage = res.data.curPage;
                     self.page.total = res.data.total;
                     self.ipAddrList = res.data.data;
@@ -136,7 +136,7 @@
             },
             loadIfaces: function (nodeId) {
                 let self = this;
-                axios.get('/ship/node/iface?nodeId=' + nodeId).then((res) => {
+                axios.get('/ship/engine/iface?nodeId=' + nodeId).then((res) => {
                     self.ifaces = res.data;
                     self.ipAddr.iface_id = self.ifaces[0].id;
                 });
@@ -170,7 +170,7 @@
                     util.dialog.notifyError(self, "请选择一条内容修改");
                     return false;
                 }
-                axios.get('/ship/node/ipAddr?id=' + self.selection[0].id).then((res) => {
+                axios.get('/ship/engine/ipAddr?id=' + self.selection[0].id).then((res) => {
                     self.ipAddr = res.data;
                 });
                 self.formVisible = true;
@@ -190,7 +190,7 @@
                 self.$refs.ipAddr.validate((valid) => {
                     if (valid) {
                         self.ipAddr.node_id = self.nodeId;
-                        axios.post('/ship/node/ipAddr', self.ipAddr).then((res) => {
+                        axios.post('/ship/engine/ipAddr', self.ipAddr).then((res) => {
                             let data = res.data;
                             if (data.flag === '0') {
                                 util.dialog.notifySuccess(self, data.msg);
@@ -213,7 +213,7 @@
                 let self = this;
                 self.$refs.ipAddr.validate((valid) => {
                     if (valid) {
-                        axios.put('/ship/node/ipAddr', self.ipAddr).then((res) => {
+                        axios.put('/ship/engine/ipAddr', self.ipAddr).then((res) => {
                             let data = res.data;
                             if (data.flag === '0') {
                                 util.dialog.notifySuccess(self, data.msg);
@@ -246,7 +246,7 @@
                     type: 'warning'
                 }).then(() => {
                     _.forEach(self.selection, (s) => {
-                        axios.delete('/ship/node/ipAddr?id=' + s.id).then((res) => {
+                        axios.delete('/ship/engine/ipAddr?id=' + s.id).then((res) => {
                             let data = res.data;
                             if (data.flag === '0') {
                                 util.dialog.notifySuccess(self, data.msg);

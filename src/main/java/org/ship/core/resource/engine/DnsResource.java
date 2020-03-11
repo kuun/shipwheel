@@ -1,7 +1,7 @@
-package org.ship.core.resource.node;
+package org.ship.core.resource.engine;
 
-import org.ship.core.service.node.INodeService;
-import org.ship.core.vo.node.Dns;
+import org.ship.core.service.engine.IEngineService;
+import org.ship.core.vo.engine.Dns;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +14,7 @@ import java.util.Map;
 @RequestMapping(value = "/ship/node/dns")
 public class DnsResource {
     @Autowired
-    private INodeService nodeService;
+    private IEngineService nodeService;
 
     @RequestMapping(method = RequestMethod.GET)
     public Dns getDns(@RequestParam("nodeId") int nodeId) {

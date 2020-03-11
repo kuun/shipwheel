@@ -1,14 +1,11 @@
-package org.ship.core.resource.node;
+package org.ship.core.resource.engine;
 
-import org.ship.core.service.node.INodeService;
-import org.ship.core.vo.node.Iface;
+import org.ship.core.service.engine.IEngineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Collection;
 
 /**
  * Created by wx on 2017/4/29.
@@ -17,7 +14,7 @@ import java.util.Collection;
 @RequestMapping(value = "/ship/node/iface")
 public class IfaceResource {
     @Autowired
-    private INodeService nodeService;
+    private IEngineService nodeService;
 
     @RequestMapping(method = RequestMethod.GET)
     public Object getIfaces(@RequestParam(value = "nodeId", required = false) String nodeId,

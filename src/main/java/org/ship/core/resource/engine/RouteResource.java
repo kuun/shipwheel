@@ -1,8 +1,8 @@
-package org.ship.core.resource.node;
+package org.ship.core.resource.engine;
 
-import org.ship.core.service.node.INodeService;
+import org.ship.core.service.engine.IEngineService;
 import org.ship.core.util.Pagination;
-import org.ship.core.vo.node.Route;
+import org.ship.core.vo.engine.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +16,7 @@ import java.util.Map;
 @RequestMapping(value = "/ship/node")
 public class RouteResource {
     @Autowired
-    private INodeService nodeService;
+    private IEngineService nodeService;
 
     @RequestMapping(value = "/routeList", method = RequestMethod.POST)
     public Pagination<Route> getRoutes(@RequestParam("nodeId") int nodeId,

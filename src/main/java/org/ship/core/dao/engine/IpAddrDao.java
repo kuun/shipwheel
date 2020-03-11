@@ -1,7 +1,7 @@
-package org.ship.core.dao.node;
+package org.ship.core.dao.engine;
 
 import org.apache.ibatis.annotations.*;
-import org.ship.core.vo.node.IpAddress;
+import org.ship.core.vo.engine.IpAddress;
 
 import java.util.Collection;
 
